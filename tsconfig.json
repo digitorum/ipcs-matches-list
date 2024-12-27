@@ -16,6 +16,10 @@
     "noImplicitOverride": true,
     "module": "preserve",
     "noEmit": true,
+    "typeRoots": [
+      "./types/",
+      "./node_modules/@types/"
+    ],
     "lib": [
       "es2022",
       "dom",

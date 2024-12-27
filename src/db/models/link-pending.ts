@@ -18,13 +18,17 @@ export const LinkPending = sequelize.define(
     status: {
       type: DataTypes.ENUM(LinkStatus.Waitig, LinkStatus.InProgress, LinkStatus.Failed),
       defaultValue: LinkStatus.Waitig
+    },
+    tries: {
+      type: DataTypes.NUMBER,
+      defaultValue: 0
     }
   },
   {
     indexes: [
       {
         unique: true,
-        fields: ['url', 'platform']
+        fields: ['url']
       }
     ]
   }

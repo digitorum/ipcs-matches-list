@@ -1,8 +1,6 @@
-import { AbstractParseHtml } from "./abstract-parse-html";
+import { AbstractFindLinksInHtml } from "./abstract-find-links-in-html";
 
-export class MakereadyParseListPage extends AbstractParseHtml {
-
-  protected override platform = 'makeready'
+export class MakereadyParseMatchesListPage extends AbstractFindLinksInHtml {
 
   protected override selectors = [
     'table#schedule td.matchTitle a[href^="/schedule"]'

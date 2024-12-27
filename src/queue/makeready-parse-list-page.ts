@@ -1,9 +1,11 @@
-import { MakereadyFetchListPage } from "../tasks/makeready-fetch-list-page"
-import { MakereadyParseListPage } from "../tasks/makeready-parse-list-page"
-import { StoreLinksTask } from '../tasks/store-links-pending'
+import { FetchSources } from "../tasks/fetch-sources"
+import { MakereadyParseMatchesListPage } from "../tasks/makeready-parse-matches-list-page"
+import { MakereadyPushMatchesListPage } from "../tasks/makeready-push-matches-list-page"
+import { StoreMatchPages } from '../tasks/store-match-pages'
 
 export default [
-  MakereadyFetchListPage,
-  MakereadyParseListPage,
-  StoreLinksTask
+  MakereadyPushMatchesListPage,
+  FetchSources,
+  MakereadyParseMatchesListPage,
+  StoreMatchPages
 ]

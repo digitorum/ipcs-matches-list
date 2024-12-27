@@ -2,15 +2,20 @@
   "name": "ipcs-matches-list",
   "version": "1.0.0",
   "main": "index.js",
+  "types": "index.d.ts",
   "repository": "https://github.com/digitorum/ipcs-matches-list.git",
   "author": "digitorum <pavel.ladygin@gmal.com>",
   "license": "MIT",
   "scripts": {
-    "queue:makeready": "node --import jiti/register scripts/run-queue.ts makeready-parse-list-page"
+    "db:sync": "node --import jiti/register src/db/sync.ts",
+    "queue:makeready": "node --import jiti/register scripts/run-queue.ts makeready-parse-list-page",
+    "queue:pending": "node --import jiti/register scripts/run-queue.ts perform-links-pending"
   },
   "dependencies": {
+    "@types/sanitize-html": "^2.13.0",
     "cheerio": "^1.0.0",
     "jiti": "^2.4.2",
+    "sanitize-html": "^2.14.0",
     "sequelize": "^6.37.5",
     "sqlite3": "^5.1.7"
   }

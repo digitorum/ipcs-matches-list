@@ -7,4 +7,3 @@ export const sequelize = new Sequelize({
   storage: path.resolve(process.cwd(), 'data', 'database.sqlite'),
   logging: false
 })
-
