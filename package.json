@@ -7,7 +7,10 @@
   "author": "digitorum <pavel.ladygin@gmal.com>",
   "license": "MIT",
   "scripts": {
-    "db:sync": "node --import jiti/register src/db/sync.ts",
+    "db:up": "yarn db:migrate:up && yarn db:seed",
+    "db:migrate:up": "sequelize-cli db:migrate",
+    "db:migrate:undo": "sequelize-cli db:migrate:undo",
+    "db:seed": "sequelize-cli db:seed:all",
     "queue:makeready": "node --import jiti/register scripts/run-queue.ts makeready-parse-list-page",
     "queue:pending": "node --import jiti/register scripts/run-queue.ts perform-links-pending"
   },
@@ -17,6 +20,7 @@
     "jiti": "^2.4.2",
     "sanitize-html": "^2.14.0",
     "sequelize": "^6.37.5",
+    "sequelize-cli": "^6.6.2",
     "sqlite3": "^5.1.7"
   }
 }

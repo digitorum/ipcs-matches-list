@@ -4,7 +4,7 @@ import { LinkPending } from '../db/models/link-pending'
 import { Match } from '../db/models/match'
 import { Type } from '../db/models/type'
 import { Weapon } from '../db/models/weapon'
-import { LinkStatus } from "../enum/link-status"
+import { LinkStatus } from "../enum/url-for-processing-status"
 
 export class StoreMatch extends AbstractTask {
 

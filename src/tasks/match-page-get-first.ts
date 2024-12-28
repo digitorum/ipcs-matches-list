@@ -1,7 +1,7 @@
 import { AbstractTask } from "./abstract-task"
 
 import { LinkPending } from '../db/models/link-pending'
-import { LinkStatus } from "../enum/link-status"
+import { LinkStatus } from "../enum/url-for-processing-status"
 
 export class MatchPageGetFirst extends AbstractTask {
   override async perform(context: ITaskContext): Promise<ITaskContext> {
