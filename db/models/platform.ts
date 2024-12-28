@@ -2,24 +2,26 @@ import type { Optional } from 'sequelize'
 
 import { DataTypes, Model, Sequelize } from 'sequelize'
 
-type FederationAttributes = {
+type PlatformAttributes = {
   id: number;
   name: string;
-  fullName: string | null;
+  url: string;
 }
 
-type FederationCreationAttributes = Optional<FederationAttributes, 'id'>
+type PlatformCreationAttributes = Optional<PlatformAttributes, 'id'>
 
-export class Federation extends Model<FederationAttributes, FederationCreationAttributes> {
+export class Platform extends Model<PlatformAttributes, PlatformCreationAttributes> {
+
+  tableName = ''
+
   declare id: number;
   declare name: string;
-  declare fullName: string | null;
+  declare url: string;
 
   static associate(sequelize: Sequelize) {
-    Federation.init({
+    Platform.init({
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
         type: DataTypes.INTEGER
       },
@@ -27,13 +29,13 @@ export class Federation extends Model<FederationAttributes, FederationCreationAt
         allowNull: false,
         type: DataTypes.STRING
       },
-      fullName: {
-        allowNull: true,
+      url: {
+        allowNull: false,
         type: DataTypes.STRING
       }
     }, {
       sequelize,
-      tableName: 'Federations',
+      tableName: 'Platforms',
       timestamps: false
     })
   }

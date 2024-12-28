@@ -1,5 +1,5 @@
 interface ITaskContext extends Partial<{
-  platform: string;
+  platform: number;
   sources: ITaskContextSources[];
 }> {}
 
@@ -13,12 +13,12 @@ interface ITaskContextSources {
     startDate: string;
     endDate: string;
     level: number;
-    type: string;
+    federation: string;
     name: string;
     exercisesCount: number;
     minimumShots: number;
     price: string;
     address: string;
-    weapon: string;
+    disciplines: string[];
   }
 }

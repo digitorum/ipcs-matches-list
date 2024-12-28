@@ -17,9 +17,15 @@ module.exports = {
           allowNull: false,
           type: Sequelize.STRING
         },
-        platform: {
+        platformId: {
+          type: Sequelize.INTEGER,
+          references: {
+            model: {
+              tableName: 'Platforms'
+            },
+            key: 'id'
+          },
           allowNull: false,
-          type: Sequelize.STRING
         },
         status: {
           allowNull: false,

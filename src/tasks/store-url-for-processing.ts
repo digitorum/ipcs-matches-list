@@ -1,11 +1,17 @@
 import { AbstractTask } from "./abstract-task"
-import { LinkPending } from '../db/models/link-pending'
+import { UrlForProcessing } from '../../db/models'
 
-export class StoreMatchPages extends AbstractTask {
+import { UrlForProcessingStatus } from '../enum/url-for-processing-status'
+
+export class StoreUrlForProcessing extends AbstractTask {
 
   override async perform(context: ITaskContext): Promise<ITaskContext> {
     if (!context.sources) {
-      throw ''
+      return context
+    }
+
+    if (!context.platform) {
+      return context
     }
 
     for(let i = 0; i < context.sources.length; i++) {
@@ -18,17 +24,19 @@ export class StoreMatchPages extends AbstractTask {
           continue
         }
 
-        const count = await LinkPending.count({
+        const count = await UrlForProcessing.count({
           where: {
             url,
-            platform: context.platform
+            platformId: context.platform
           }
         })
   
         if (count === 0) {
-          await LinkPending.create({
+          await UrlForProcessing.create({
             url,
-            platform: context.platform
+            status: UrlForProcessingStatus.Waitig,
+            platformId: context.platform,
+            tries: 0
           })
         }
       }

@@ -1,17 +1,17 @@
+import { Address, UrlForProcessing, Match, Federation, Discipline, Platform, MatchDiscipline } from '../../db/models'
 import { AbstractTask } from "./abstract-task"
-import { Address } from '../db/models/address'
-import { LinkPending } from '../db/models/link-pending'
-import { Match } from '../db/models/match'
-import { Type } from '../db/models/type'
-import { Weapon } from '../db/models/weapon'
-import { LinkStatus } from "../enum/url-for-processing-status"
+import { UrlForProcessingStatus } from "../enum/url-for-processing-status"
 
 export class StoreMatch extends AbstractTask {
 
   override async perform(context: ITaskContext): Promise<ITaskContext> {
 
     if (!context.sources) {
-      throw ''
+      return context
+    }
+
+    if (!context.platform) {
+      return context
     }
 
     for(let i = 0; i < context.sources.length; i++) {
@@ -21,32 +21,26 @@ export class StoreMatch extends AbstractTask {
         continue
       }
 
-      const link = await LinkPending.findOne({
+      const url = await UrlForProcessing.findOne({
         where: {
           url: source.url
         }
       })
 
-      if (!link) {
+      if (!url) {
         continue
       }
 
       const match = source.match
 
       if (!match) {
-        await link.update({ status: LinkStatus.Failed })
+        await url.update({ status: UrlForProcessingStatus.Failed })
         continue
       }
 
-      const [ type ] = await Type.findOrCreate({
+      const [ federation ] = await Federation.findOrCreate({
         where: {
-          name: match.type ?? 'unknown'
-        }
-      })
-
-      const [ weapon ] = await Weapon.findOrCreate({
-        where: {
-          name: match.weapon ?? 'unknown'
+          name: match.federation
         }
       })
 
@@ -56,23 +50,39 @@ export class StoreMatch extends AbstractTask {
         }
       })
 
-      await Match.create({
+      const createdMatch = await Match.create({
         name: match.name,
-        url: link.get('url'),
-        platform: context.platform,
-        typeId: type.get('id'),
+        url: url.url,
+        platformId: context.platform,
+        federationId: federation.id ?? null,
         startDate: match.startDate,
         endDate: match.endDate,
         level: match.level,
         exercisesCount: match.exercisesCount,
         minimumShots: match.minimumShots,
         price: match.price,
-        addressId: address.get('id'),
-        weaponId: weapon.get('id')
+        addressId: address.id
       })
 
-      await link.destroy()
+      match.disciplines.forEach(async function(name) {
+        const [ discipline ] = await Discipline.findOrCreate({
+          where: {
+            name
+          }
+        })
 
+        if (!discipline.id) {
+          return
+        }
+
+        await MatchDiscipline.create({
+          matchId: createdMatch.id,
+          disciplineId: discipline.id
+        })
+
+      })
+
+      await url.destroy()
     }
 
     return {}

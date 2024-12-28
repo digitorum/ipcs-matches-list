@@ -42,12 +42,18 @@ function toDateOnly(str: string) {
 }
 
 function parseCommonMatchInfo(str: string = '') {
-  const result= {
-    startDate: '',
+  const result: {
+    disciplines: string[];
+    endDate: string;
+    level: string;
+    startDate: string;
+    federation: string;
+  } = {
+    disciplines: [],
     endDate: '',
     level: '',
-    type: '',
-    weapon: ''
+    startDate: '',
+    federation: ''
   }
 
   if (!str) {
@@ -80,21 +86,22 @@ function parseCommonMatchInfo(str: string = '') {
     const matches = federationAndLevel.match(/(idpa|ipsc)(\s*\(level\s*(.*?)\))?/i)
 
     if (matches) {
-      result.type = matches[1] ?? ''
+      result.federation = matches[1] ?? ''
       result.level = matches[3] ?? ''
     }
   }
   
 
   if (weapon) {
-    result.weapon = weapon
+    result.disciplines = [
+      weapon
+    ]
   }
 
 
 
   return result
 }
-
 
 export class MakereadyParseMatchPage extends AbstractTask {
   override async perform(context: ITaskContext): Promise<ITaskContext> {
@@ -120,7 +127,7 @@ export class MakereadyParseMatchPage extends AbstractTask {
         .split('\n')
 
       const name = content.shift() ?? ''
-      const { startDate, endDate, level, type, weapon } = parseCommonMatchInfo(content.shift())
+      const { startDate, endDate, level, federation, disciplines } = parseCommonMatchInfo(content.shift())
       const address = content.shift() ?? ''
       const exercisesCount = findNumber(content, /количество\s*упражнений:\s*([0-9]+)/i)
       const minimumShots = findNumber(content, /количество\s*выстрелов\s*\(минимум\):\s*([0-9]+)/i)
@@ -136,13 +143,13 @@ export class MakereadyParseMatchPage extends AbstractTask {
           startDate: toDateOnly(startDate),
           endDate: toDateOnly(endDate),
           level: levelMap[level] ?? 0,
-          type,
+          federation,
           name,
           exercisesCount,
           minimumShots,
           price,
           address,
-          weapon
+          disciplines
         }
       }
     })

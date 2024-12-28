@@ -1,32 +1,35 @@
 import { AbstractTask } from "./abstract-task"
 
-import { LinkPending } from '../db/models/link-pending'
-import { LinkStatus } from "../enum/url-for-processing-status"
+import { UrlForProcessing } from '../../db/models'
+import { UrlForProcessingStatus } from "../enum/url-for-processing-status"
 
 export class MatchPageGetFirst extends AbstractTask {
   override async perform(context: ITaskContext): Promise<ITaskContext> {
-    const task = await LinkPending.findOne({
+    const url = await UrlForProcessing.findOne({
       where: {
-        status: LinkStatus.Waitig
+        status: UrlForProcessingStatus.Waitig
       },
       order: [
         ['tries', 'ASC']
       ]
     })
 
-    if (!task) {
-      throw 'no task fetched'
+    if (!url) {
+      return {
+        platform: 0,
+        sources: []
+      }
     }
 
-    await task.increment('tries')
-    await task.update({ status: LinkStatus.InProgress })
+    await url.increment('tries')
+    await url.update({ status: UrlForProcessingStatus.InProgress })
 
     return {
-      platform: task.get('platform') as string,
+      platform: url.platformId,
       sources: [
         {
           type: 'html',
-          url: task.get('url') as string
+          url: url.url
         }
       ]
     }

@@ -1,5 +1,5 @@
 export enum Platform {
-  Makeready = 'makeready',
-  Atlima = 'atlima',
-  Matchday = 'matchday'
+  Makeready = 1,
+  Atlima = 2,
+  Matchday = 3
 }
