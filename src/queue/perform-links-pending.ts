@@ -1,11 +1,11 @@
-import { FetchSources } from "../tasks/fetch-sources"
-import { MatchPageGetFirst } from "../tasks/match-page-get-first"
-import { MakereadyParseMatchPage } from "../tasks/makeready-parse-match-page"
+import { FetchMatchSources } from "../tasks/fetch-match-sources"
+import { ParseMatchPage } from "../tasks/parse-match-page"
 import { StoreMatch } from '../tasks/store-match'
+import { UrlForProcessingPerform } from "../tasks/url-for-processing-perform"
 
 export default [
-  MatchPageGetFirst,
-  FetchSources,
-  MakereadyParseMatchPage,
+  UrlForProcessingPerform,
+  FetchMatchSources,
+  ParseMatchPage,
   StoreMatch
 ]

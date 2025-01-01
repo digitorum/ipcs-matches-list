@@ -3,7 +3,7 @@ import { AbstractTask } from "./abstract-task"
 import { UrlForProcessing } from '../../db/models'
 import { UrlForProcessingStatus } from "../enum/url-for-processing-status"
 
-export class MatchPageGetFirst extends AbstractTask {
+export class UrlForProcessingPerform extends AbstractTask {
   override async perform(context: ITaskContext): Promise<ITaskContext> {
     const url = await UrlForProcessing.findOne({
       where: {

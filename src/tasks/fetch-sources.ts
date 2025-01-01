@@ -8,28 +8,34 @@ export abstract class FetchSources extends AbstractTask {
     return new URL(source).origin
   }
 
+  protected getPatchedResource(source: ITaskContextSources) {
+    return source
+  }
+
   override async perform(context: Partial<ITaskContext>): Promise<Partial<ITaskContext>> {
 
     if (!context.sources) {
-      throw ''
+      return context
     }
 
     const responses = await Promise.all(
       context.sources.map(async (source) => {
         let result: ITaskContext
   
-        switch(source.type) {
+        const patched = this.getPatchedResource(source)
+
+        switch(patched.type) {
           case 'html':
             result = await new FetchHtml().perform({
               sources: [
-                source
+                patched
               ]
             })
             break
           case 'json':
             result = await new FetchJson().perform({
               sources: [
-                source
+                patched
               ]
             })
             break

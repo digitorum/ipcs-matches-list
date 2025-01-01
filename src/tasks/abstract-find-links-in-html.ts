@@ -45,6 +45,8 @@ export abstract class AbstractFindLinksInHtml extends AbstractTask {
           .map((url) => this.getNormalizedUrl(url, source.baseurl))
           .filter((url) => this.ignore.indexOf(url) === -1)
 
+        source.response = null
+
         return {
           ...source,
           links

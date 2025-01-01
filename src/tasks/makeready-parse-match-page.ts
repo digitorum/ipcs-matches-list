@@ -98,8 +98,6 @@ function parseCommonMatchInfo(str: string = '') {
     ]
   }
 
-
-
   return result
 }
 
