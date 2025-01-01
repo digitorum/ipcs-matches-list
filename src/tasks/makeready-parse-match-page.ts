@@ -44,13 +44,13 @@ function toDateOnly(str: string) {
 function parseCommonMatchInfo(str: string = '') {
   const result: {
     disciplines: string[];
-    endDate: string;
+    endDate: string | null;
     level: string;
     startDate: string;
     federation: string;
   } = {
     disciplines: [],
-    endDate: '',
+    endDate: null,
     level: '',
     startDate: '',
     federation: ''
@@ -131,7 +131,7 @@ export class MakereadyParseMatchPage extends AbstractTask {
       const address = content.shift() ?? ''
       const exercisesCount = findNumber(content, /количество\s*упражнений:\s*([0-9]+)/i)
       const minimumShots = findNumber(content, /количество\s*выстрелов\s*\(минимум\):\s*([0-9]+)/i)
-      const price = findString(content, /стоимость\s*участия:\s*([0-9\s]+)/i)
+      const price = findString(content, /стоимость\s*участия:\s*([^\n]+)/i).trim()
 
       if (!name || !startDate) {
         return source
@@ -141,7 +141,7 @@ export class MakereadyParseMatchPage extends AbstractTask {
         ...source,
         match: {
           startDate: toDateOnly(startDate),
-          endDate: toDateOnly(endDate),
+          endDate: endDate ? toDateOnly(endDate) : null,
           level: levelMap[level] ?? 0,
           federation,
           name,

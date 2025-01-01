@@ -8,9 +8,9 @@ type MatchAttributes = {
   name: string;
   url: string;
   platformId: number;
-  federationId: number;
+  federationId: number | null;
   startDate: string;
-  endDate: string;
+  endDate: string | null;
   level: number;
   exercisesCount: number;
   minimumShots: number;
@@ -27,9 +27,9 @@ export class Match extends Model<MatchAttributes, MatchCreationAttributes> {
   declare name: string;
   declare url: string;
   declare platformId: number;
-  declare federationId: number;
+  declare federationId: number | null;
   declare startDate: string;
-  declare endDate: string;
+  declare endDate: string | null;
   declare level: number;
   declare exercisesCount: number;
   declare minimumShots: number;

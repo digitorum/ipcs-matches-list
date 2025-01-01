@@ -38,11 +38,17 @@ export class StoreMatch extends AbstractTask {
         continue
       }
 
-      const [ federation ] = await Federation.findOrCreate({
-        where: {
-          name: match.federation
-        }
-      })
+      let federationId = null
+
+      if (match.federation) {
+        const [ federation ] = await Federation.findOrCreate({
+          where: {
+            name: match.federation
+          }
+        })
+
+        federationId = federation.id ?? null
+      }
 
       const [ address ] = await Address.findOrCreate({
         where: {
@@ -54,7 +60,7 @@ export class StoreMatch extends AbstractTask {
         name: match.name,
         url: url.url,
         platformId: context.platform,
-        federationId: federation.id ?? null,
+        federationId,
         startDate: match.startDate,
         endDate: match.endDate,
         level: match.level,

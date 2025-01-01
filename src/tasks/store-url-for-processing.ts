@@ -1,5 +1,5 @@
 import { AbstractTask } from "./abstract-task"
-import { UrlForProcessing } from '../../db/models'
+import { Match, UrlForProcessing } from '../../db/models'
 
 import { UrlForProcessingStatus } from '../enum/url-for-processing-status'
 
@@ -24,21 +24,34 @@ export class StoreUrlForProcessing extends AbstractTask {
           continue
         }
 
-        const count = await UrlForProcessing.count({
+        const queuedCount = await UrlForProcessing.count({
           where: {
             url,
             platformId: context.platform
           }
         })
-  
-        if (count === 0) {
-          await UrlForProcessing.create({
-            url,
-            status: UrlForProcessingStatus.Waitig,
-            platformId: context.platform,
-            tries: 0
-          })
+
+        if (queuedCount > 0) {
+          return {}
         }
+
+        const matchesWithUrlCount = await Match.count({
+          where: {
+            url,
+            platformId: context.platform
+          }
+        })
+
+        if (matchesWithUrlCount > 0) {
+          return {}
+        }
+  
+        await UrlForProcessing.create({
+          url,
+          status: UrlForProcessingStatus.Waitig,
+          platformId: context.platform,
+          tries: 0
+        })
       }
     }
 

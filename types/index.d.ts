@@ -11,7 +11,7 @@ interface ITaskContextSources {
   url: string;
   match?: {
     startDate: string;
-    endDate: string;
+    endDate: string | null;
     level: number;
     federation: string;
     name: string;
