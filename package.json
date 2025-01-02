@@ -13,7 +13,9 @@
     "db:seed": "sequelize-cli db:seed:all",
     "queue:makeready": "node --import jiti/register scripts/run-queue.ts makeready-parse-list-page",
     "queue:atlima": "node --import jiti/register scripts/run-queue.ts atlima-parse-list-page",
+    "queue:matchday": "node --import jiti/register scripts/run-queue.ts matchday-parse-list-page",
     "queue:pending": "node --import jiti/register scripts/run-queue.ts perform-links-pending"
+    
   },
   "dependencies": {
     "@types/sanitize-html": "^2.13.0",

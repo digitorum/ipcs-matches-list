@@ -1,44 +1,14 @@
-import sanitizehtml from 'sanitize-html'
 import * as cheerio from 'cheerio'
 
 import { AbstractTask } from "./abstract-task";
+
+import { findNumber, findString, getDateOnly } from '../utilities/string'
+import { sanitize } from '../utilities/sanitize'
 
 const levelMap: Record<string, number> = {
   'I': 1,
   'II': 2,
   'III': 3
-}
-
-function findPattern(arr: string[], pattern: RegExp, resultIndex: number = 1) {
-  for(let i = 0; i < arr.length; ++i) {
-    const str = arr[i]
-    const result = str?.match(pattern)
-
-    if (result) {
-      return result[resultIndex] ?? null
-    }
-  }
-
-  return null
-}
-
-function findString(arr: string[], pattern: RegExp, resultIndex: number = 1): string {
-  return findPattern(arr, pattern, resultIndex) ?? ''
-}
-
-function findNumber(arr: string[], pattern: RegExp, resultIndex: number = 1): number {
-  const result = findPattern(arr, pattern, resultIndex)
-
-  if (!result) {
-    return 0
-  }
-
-
-  return parseInt(result, 10)
-}
-
-function toDateOnly(str: string) {
-  return str.split('.').reverse().join('-')
 }
 
 function parseCommonMatchInfo(str: string = '') {
@@ -117,12 +87,7 @@ export class MakereadyParseMatchPage extends AbstractTask {
         return source
       }
 
-      let content = sanitizehtml(html, { allowedTags: [] })
-        .trim()
-        .replaceAll(/[ \t]+/g, ' ')
-        .replaceAll(/\r/g, '')
-        .replaceAll(/\n+/g, '\n')
-        .split('\n')
+      let content = sanitize(html).split('\n')
 
       const name = content.shift() ?? ''
       const { startDate, endDate, level, federation, disciplines } = parseCommonMatchInfo(content.shift())
@@ -138,8 +103,8 @@ export class MakereadyParseMatchPage extends AbstractTask {
       return {
         ...source,
         match: {
-          startDate: toDateOnly(startDate),
-          endDate: endDate ? toDateOnly(endDate) : null,
+          startDate: getDateOnly(startDate),
+          endDate: endDate ? getDateOnly(endDate) : null,
           level: levelMap[level] ?? 0,
           federation,
           name,
