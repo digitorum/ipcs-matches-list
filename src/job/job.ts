@@ -24,7 +24,10 @@ export class Job {
 
   private exit(message: string) {
     this.tasks = []
-    throw message
+
+    if (message) {
+      throw message
+    }
   }
 
   public async perform() {

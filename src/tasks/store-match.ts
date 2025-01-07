@@ -7,11 +7,11 @@ export class StoreMatch extends AbstractTask {
   override async perform(context: TTaskContext): Promise<TTaskContext> {
 
     if (!context.sources) {
-      return context.exit('не переданы источники')
+      return context.exit('StoreMatch / не переданы источники')
     }
 
     if (!context.platform) {
-      return context.exit('не передана платформа')
+      return context.exit('StoreMatch / не передана платформа')
     }
 
     for(let i = 0; i < context.sources.length; i++) {
@@ -83,7 +83,9 @@ export class StoreMatch extends AbstractTask {
         locationId: location.id
       })
 
-      match.disciplines.forEach(async function(name) {
+      for(let i = 0; i < match.disciplines.length; ++i) {
+        const name = match.disciplines[i]
+
         const [ discipline ] = await Discipline.findOrCreate({
           where: {
             name
@@ -91,15 +93,14 @@ export class StoreMatch extends AbstractTask {
         })
 
         if (!discipline.id) {
-          return
+          continue
         }
 
         await MatchDiscipline.create({
           matchId: createdMatch.id,
           disciplineId: discipline.id
         })
-
-      })
+      }
 
       await url.destroy()
     }

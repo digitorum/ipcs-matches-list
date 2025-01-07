@@ -4,7 +4,7 @@ export class AtlimaParseMatchesListPages extends AbstractTask {
 
   override async perform(context: TTaskContext): Promise<TTaskContext> {
     if (!context.sources) {
-      return context.exit('не переданы источники')
+      return context.exit('AtlimaParseMatchesListPages / не переданы источники')
     }
 
     return {

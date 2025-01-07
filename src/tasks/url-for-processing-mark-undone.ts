@@ -6,7 +6,7 @@ import { UrlForProcessingStatus } from "../enum/url-for-processing-status"
 export class UrlForProcessingMarkUndone extends AbstractTask {
   override async perform(context: TTaskContext): Promise<TTaskContext> {
     if (!context.sources) {
-      return context.exit('не переданы источники')
+      return context.exit()
     }
 
     for(let i = 0; i < context.sources.length; ++i) {

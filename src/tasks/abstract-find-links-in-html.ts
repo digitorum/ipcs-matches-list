@@ -22,7 +22,7 @@ export abstract class AbstractFindLinksInHtml extends AbstractTask {
 
   override async perform(context: TTaskContext): Promise<TTaskContext> {
     if (!context.sources) {
-      return context.exit('не переданы источники')
+      return context.exit('AbstractFindLinksInHtml / не переданы источники')
     }
 
     return {

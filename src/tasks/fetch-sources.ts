@@ -12,10 +12,10 @@ export class FetchSources extends AbstractTask {
     return source
   }
 
-  override async perform(context: TTaskContext): Promise<Partial<TTaskContext>> {
+  override async perform(context: TTaskContext): Promise<TTaskContext> {
 
     if (!context.sources) {
-      return context.exit('не переданы источники')
+      return context.exit('FetchSources / не переданы источники')
     }
 
     const responses = await Promise.all(

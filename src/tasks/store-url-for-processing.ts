@@ -7,11 +7,11 @@ export class StoreUrlForProcessing extends AbstractTask {
 
   override async perform(context: TTaskContext): Promise<TTaskContext> {
     if (!context.sources) {
-      return context.exit('не переданы источники')
+      return context.exit('StoreUrlForProcessing / не переданы источники')
     }
 
     if (!context.platform) {
-      return context.exit('не передана платформа')
+      return context.exit('StoreUrlForProcessing / не передана платформа')
     }
 
     for(let i = 0; i < context.sources.length; i++) {
