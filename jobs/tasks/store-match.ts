@@ -38,8 +38,6 @@ export class StoreMatch extends AbstractTask {
         continue
       }
 
-      console.log(match)
-
       if (!match) {
         await url.update({ status: UrlForProcessingStatus.Failed })
         continue
