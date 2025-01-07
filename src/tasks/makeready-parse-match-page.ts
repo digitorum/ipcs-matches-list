@@ -72,7 +72,7 @@ function parseCommonMatchInfo(str: string = '') {
 }
 
 export class MakereadyParseMatchPage extends AbstractTask {
-  override async perform(context: ITaskContext): Promise<ITaskContext> {
+  override async perform(context: TTaskContext): Promise<TTaskContext> {
 
     const sources = context.sources?.map(function(source) {
 
@@ -91,7 +91,7 @@ export class MakereadyParseMatchPage extends AbstractTask {
 
       const name = content.shift() ?? ''
       const { startDate, endDate, level, federation, disciplines } = parseCommonMatchInfo(content.shift())
-      const address = content.shift() ?? ''
+      const location = content.shift() ?? ''
       const exercisesCount = findNumber(content, /количество\s*упражнений:\s*([0-9]+)/i)
       const minimumShots = findNumber(content, /количество\s*выстрелов\s*\(минимум\):\s*([0-9]+)/i)
       const price = findString(content, /стоимость\s*участия:\s*([^\n]+)/i).trim()
@@ -111,7 +111,7 @@ export class MakereadyParseMatchPage extends AbstractTask {
           exercisesCount,
           minimumShots,
           price,
-          address,
+          location,
           disciplines
         }
       }

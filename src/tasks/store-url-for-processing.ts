@@ -5,13 +5,13 @@ import { UrlForProcessingStatus } from '../enum/url-for-processing-status'
 
 export class StoreUrlForProcessing extends AbstractTask {
 
-  override async perform(context: ITaskContext): Promise<ITaskContext> {
+  override async perform(context: TTaskContext): Promise<TTaskContext> {
     if (!context.sources) {
-      return context
+      return context.exit('не переданы источники')
     }
 
     if (!context.platform) {
-      return context
+      return context.exit('не передана платформа')
     }
 
     for(let i = 0; i < context.sources.length; i++) {
@@ -32,7 +32,7 @@ export class StoreUrlForProcessing extends AbstractTask {
         })
 
         if (queuedCount > 0) {
-          return {}
+          continue
         }
 
         const matchesWithUrlCount = await Match.count({
@@ -43,7 +43,7 @@ export class StoreUrlForProcessing extends AbstractTask {
         })
 
         if (matchesWithUrlCount > 0) {
-          return {}
+          continue
         }
   
         await UrlForProcessing.create({
@@ -55,7 +55,7 @@ export class StoreUrlForProcessing extends AbstractTask {
       }
     }
 
-    return {}
+    return context
   }
 
 }

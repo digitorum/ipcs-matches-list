@@ -2,7 +2,7 @@ import { AbstractTask } from "./abstract-task";
 import { FetchHtml } from "./fetch-html";
 import { FetchJson } from "./fetch-json";
 
-export abstract class FetchSources extends AbstractTask {
+export class FetchSources extends AbstractTask {
   
   protected getBaseUrl(source: string): string {
     return new URL(source).origin
@@ -12,21 +12,22 @@ export abstract class FetchSources extends AbstractTask {
     return source
   }
 
-  override async perform(context: Partial<ITaskContext>): Promise<Partial<ITaskContext>> {
+  override async perform(context: TTaskContext): Promise<Partial<TTaskContext>> {
 
     if (!context.sources) {
-      return context
+      return context.exit('не переданы источники')
     }
 
     const responses = await Promise.all(
       context.sources.map(async (source) => {
-        let result: ITaskContext
+        let result: TTaskContext
   
         const patched = this.getPatchedResource(source)
 
         switch(patched.type) {
           case 'html':
             result = await new FetchHtml().perform({
+              ...context,
               sources: [
                 patched
               ]
@@ -34,6 +35,7 @@ export abstract class FetchSources extends AbstractTask {
             break
           case 'json':
             result = await new FetchJson().perform({
+              ...context,
               sources: [
                 patched
               ]

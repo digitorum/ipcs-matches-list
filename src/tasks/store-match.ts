@@ -1,17 +1,17 @@
-import { Address, UrlForProcessing, Match, Federation, Discipline, Platform, MatchDiscipline } from '../../db/models'
+import { Location, UrlForProcessing, Match, Federation, Discipline, MatchDiscipline, City } from '../../db/models'
 import { AbstractTask } from "./abstract-task"
 import { UrlForProcessingStatus } from "../enum/url-for-processing-status"
 
 export class StoreMatch extends AbstractTask {
 
-  override async perform(context: ITaskContext): Promise<ITaskContext> {
+  override async perform(context: TTaskContext): Promise<TTaskContext> {
 
     if (!context.sources) {
-      return context
+      return context.exit('не переданы источники')
     }
 
     if (!context.platform) {
-      return context
+      return context.exit('не передана платформа')
     }
 
     for(let i = 0; i < context.sources.length; i++) {
@@ -47,12 +47,25 @@ export class StoreMatch extends AbstractTask {
           }
         })
 
-        federationId = federation.id ?? null
+        federationId = federation?.id ?? null
       }
 
-      const [ address ] = await Address.findOrCreate({
+      let cityId = null
+
+      if (match.city) {
+        const [ city ] = await City.findOrCreate({
+          where: {
+            name: match.city
+          }
+        })
+
+        cityId = city?.id ?? null
+      }
+      
+      const [ location ] = await Location.findOrCreate({
         where: {
-          address: match.address ?? 'unknown'
+          location: match.location ?? 'unknown',
+          cityId
         }
       })
 
@@ -67,7 +80,7 @@ export class StoreMatch extends AbstractTask {
         exercisesCount: match.exercisesCount,
         minimumShots: match.minimumShots,
         price: match.price,
-        addressId: address.id
+        locationId: location.id
       })
 
       match.disciplines.forEach(async function(name) {
@@ -91,7 +104,7 @@ export class StoreMatch extends AbstractTask {
       await url.destroy()
     }
 
-    return {}
+    return context
   }
 
 }

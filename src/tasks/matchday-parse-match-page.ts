@@ -7,7 +7,7 @@ import { findNumber, findString, getDateOnly } from '../utilities/string'
 import { sanitize } from '../utilities/sanitize'
 
 export class MatchdayParseMatchPage extends AbstractTask {
-  override async perform(context: ITaskContext): Promise<ITaskContext> {
+  override async perform(context: TTaskContext): Promise<TTaskContext> {
 
     const sources = context.sources?.map(function(source) {
 
@@ -36,7 +36,7 @@ export class MatchdayParseMatchPage extends AbstractTask {
 
       const level = findNumber([list[1] ?? ''], /Уровень:\s*([0-9]+)/i)
       const federation = 'IPSC'
-      const address = findString([list[2] ?? ''], /Место проведения:\s*(.*)/i)
+      const location = findString([list[2] ?? ''], /Место проведения:\s*(.*)/i)
       const disciplines = list[3]?.split(',').map((chunk) => chunk.trim()) ?? []
       const exercisesCount = findNumber([list[6] ?? ''], /Упражнений:\s*([0-9]+)/i)
       const minimumShots = findNumber([list[7] ?? ''], /Минимум\s*выстрелов:\s*([0-9]+)/i)
@@ -53,7 +53,7 @@ export class MatchdayParseMatchPage extends AbstractTask {
           exercisesCount,
           minimumShots,
           price,
-          address,
+          location,
           disciplines
         }
       }

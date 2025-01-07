@@ -1,7 +1,10 @@
-interface ITaskContext extends Partial<{
+type TTaskContext = {
+  exit: Function;
+} & Partial<{
+  
   platform: number;
   sources: ITaskContextSources[];
-}> {}
+}>
 
 interface ITaskContextSources {
   baseurl?: string;
@@ -18,7 +21,8 @@ interface ITaskContextSources {
     exercisesCount: number;
     minimumShots: number;
     price: string;
-    address: string;
+    location: string;
     disciplines: string[];
+    city?: string;
   }
 }

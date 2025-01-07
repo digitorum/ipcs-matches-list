@@ -15,7 +15,7 @@ type MatchAttributes = {
   exercisesCount: number;
   minimumShots: number;
   price: string;
-  addressId: number;
+  locationId: number;
   createdAt: number;
   updatedAt: number;
 }
@@ -34,7 +34,7 @@ export class Match extends Model<MatchAttributes, MatchCreationAttributes> {
   declare exercisesCount: number;
   declare minimumShots: number;
   declare price: string;
-  declare addressId: number;
+  declare locationId: number;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
@@ -97,11 +97,11 @@ export class Match extends Model<MatchAttributes, MatchCreationAttributes> {
         type: DataTypes.STRING,
         defaultValue: ''
       },
-      addressId: {
+      locationId: {
         type: DataTypes.INTEGER,
         references: {
           model: {
-            tableName: 'Addresses'
+            tableName: 'Locations'
           },
           key: 'id'
         }

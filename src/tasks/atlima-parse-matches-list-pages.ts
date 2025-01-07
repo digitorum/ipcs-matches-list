@@ -2,7 +2,10 @@ import { AbstractTask } from "./abstract-task";
 
 export class AtlimaParseMatchesListPages extends AbstractTask {
 
-  override async perform(context: ITaskContext): Promise<ITaskContext> {
+  override async perform(context: TTaskContext): Promise<TTaskContext> {
+    if (!context.sources) {
+      return context.exit('не переданы источники')
+    }
 
     return {
       ...context,
@@ -20,8 +23,5 @@ export class AtlimaParseMatchesListPages extends AbstractTask {
         }
       })
     }
-
-
-    return context
   }
 }

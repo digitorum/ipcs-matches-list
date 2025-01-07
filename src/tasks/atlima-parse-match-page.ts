@@ -9,7 +9,7 @@ function getDate(str?: string): string | null {
 }
 
 export class AtlimaParseMatchPage extends AbstractTask {
-  override async perform(context: ITaskContext): Promise<ITaskContext> {
+  override async perform(context: TTaskContext): Promise<TTaskContext> {
 
     const sources = context.sources?.map(function(source) {
       if (!source.response) {
@@ -54,7 +54,8 @@ export class AtlimaParseMatchPage extends AbstractTask {
       const exercisesCount = json.exercises_amount ?? 0
       const minimumShots = json.minimum_shots ?? 0
       const price = `${json.price ?? ''} ${json.currency?.code ?? ''}`.trim()
-      const address = [json.region?.country?.title, json.city?.title, json.region?.title]
+      const city = json.city?.title ?? ''
+      const location = [json.region?.country?.title, city, json.region?.title]
         .filter((chunk) => !!chunk)
         .join(', ')
       const disciplines = json.properties?.divisions
@@ -80,8 +81,9 @@ export class AtlimaParseMatchPage extends AbstractTask {
           exercisesCount,
           minimumShots,
           price,
-          address,
-          disciplines
+          location,
+          disciplines,
+          city
         }
       }
     })

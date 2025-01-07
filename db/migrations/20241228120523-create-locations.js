@@ -5,29 +5,31 @@ module.exports = {
     const transaction = await queryInterface.sequelize.transaction();
 
     try {
-      await queryInterface.createTable('Addresses', {
+      await queryInterface.createTable('Locations', {
         id: {
           allowNull: false,
           autoIncrement: true,
           primaryKey: true,
           type: Sequelize.INTEGER
         },
-        address: {
+        location: {
           allowNull: false,
           type: Sequelize.STRING
         },
-        country: {
+        cityId: {
           allowNull: true,
-          type: Sequelize.STRING
-        },
-        city: {
-          allowNull: true,
-          type: Sequelize.STRING
+          type: Sequelize.INTEGER,
+          references: {
+            model: {
+              tableName: 'Cities'
+            },
+            key: 'id'
+          }
         }
       });
 
-      await queryInterface.addIndex('Addresses', {
-        fields: ['address'],
+      await queryInterface.addIndex('Locations', {
+        fields: ['location'],
         unique: true,
         transaction,
       });
@@ -39,6 +41,6 @@ module.exports = {
     }
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Addresses');
+    await queryInterface.dropTable('Location');
   }
 };

@@ -2,16 +2,16 @@ import { Platform } from "../enum/platform"
 import { AtlimaFetchMatchJson } from "./atlima-fetch-match-json"
 import { FetchSources } from "./fetch-sources"
 
-export abstract class FetchMatchSources extends FetchSources {
+export class FetchMatchSources extends FetchSources {
 
-  override async perform(context: Partial<ITaskContext>): Promise<Partial<ITaskContext>> {
+  override async perform(context: TTaskContext): Promise<Partial<TTaskContext>> {
 
     if (!context.sources) {
-      return context
+      return context.exit('не переданы источники')
     }
 
     if (!context.platform) {
-      return context
+      return context.exit('не передана платформа')
     }
 
     switch(context.platform) {

@@ -5,7 +5,7 @@ import { AtlimaParseMatchPage } from './atlima-parse-match-page'
 import { MatchdayParseMatchPage } from './matchday-parse-match-page'
 
 export class ParseMatchPage extends AbstractTask {
-  override async perform(context: ITaskContext): Promise<ITaskContext> {
+  override async perform(context: TTaskContext): Promise<TTaskContext> {
     switch(context.platform) {
       case Platform.Makeready:
         return await new MakereadyParseMatchPage().perform(context)

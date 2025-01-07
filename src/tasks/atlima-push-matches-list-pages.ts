@@ -26,7 +26,7 @@ export class AtlimaPushMatchesListPages extends AbstractPushSources {
     },
     {
       type: 'json',
-      url: `https://atlima.com/api/sports-events?page=4&client_date=${AtlimaPushMatchesListPages.currentDate}ordering=start_event_date&future=1`
+      url: `https://atlima.com/api/sports-events?page=4&client_date=${AtlimaPushMatchesListPages.currentDate}&ordering=start_event_date&future=1`
     }
   ]
 

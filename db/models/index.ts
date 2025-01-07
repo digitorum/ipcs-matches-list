@@ -1,6 +1,7 @@
-import { Address } from './address'
+import { City } from './city'
 import { Discipline } from './discipline'
 import { Federation } from './federation'
+import { Location } from './location'
 import { Match } from './match'
 import { MatchDiscipline } from './match-discipline'
 import { Platform } from './platform'
@@ -12,7 +13,8 @@ const config = require(__dirname + '/../config/config.json')[env];
 const sequelize = new Sequelize(config.database, config.username, config.password, config)
 
 const models = [
-  Address,
+  City,
+  Location,
   Discipline,
   Federation,
   Match,
@@ -28,7 +30,8 @@ models.forEach(function(model) {
 })
 
 export {
-  Address,
+  City,
+  Location,
   Discipline,
   Federation,
   Match,

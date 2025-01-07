@@ -4,9 +4,9 @@ export abstract class AbstractFetch extends AbstractTask {
 
   protected abstract fetch(source: string): any
 
-  override async perform(context: ITaskContext): Promise<ITaskContext> {
+  override async perform(context: TTaskContext): Promise<TTaskContext> {
     if (!context.sources) {
-      return context
+      return context.exit('не переданы источники')
     }
 
     const sources = await Promise.all(context.sources.map(async (source) => {

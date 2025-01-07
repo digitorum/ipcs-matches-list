@@ -1,3 +1,3 @@
 export abstract class AbstractTask {
-  abstract perform(context: ITaskContext): Promise<ITaskContext> 
+  abstract perform(context: TTaskContext): Promise<TTaskContext> 
 }

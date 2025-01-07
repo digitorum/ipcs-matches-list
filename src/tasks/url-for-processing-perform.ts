@@ -4,7 +4,7 @@ import { UrlForProcessing } from '../../db/models'
 import { UrlForProcessingStatus } from "../enum/url-for-processing-status"
 
 export class UrlForProcessingPerform extends AbstractTask {
-  override async perform(context: ITaskContext): Promise<ITaskContext> {
+  override async perform(context: TTaskContext): Promise<TTaskContext> {
     const url = await UrlForProcessing.findOne({
       where: {
         status: UrlForProcessingStatus.Waitig
@@ -15,16 +15,14 @@ export class UrlForProcessingPerform extends AbstractTask {
     })
 
     if (!url) {
-      return {
-        platform: 0,
-        sources: []
-      }
+      return context.exit('очередь пуста')
     }
 
     await url.increment('tries')
     await url.update({ status: UrlForProcessingStatus.InProgress })
 
     return {
+      ...context,
       platform: url.platformId,
       sources: [
         {

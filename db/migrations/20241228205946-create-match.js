@@ -65,11 +65,11 @@ module.exports = {
           type: Sequelize.STRING,
           defaultValue: ''
         },
-        addressId: {
+        locationId: {
           type: Sequelize.INTEGER,
           references: {
             model: {
-              tableName: 'Addresses'
+              tableName: 'Locations'
             },
             key: 'id'
           }

@@ -20,9 +20,9 @@ export abstract class AbstractFindLinksInHtml extends AbstractTask {
     return url
   }
 
-  override async perform(context: ITaskContext): Promise<ITaskContext> {
+  override async perform(context: TTaskContext): Promise<TTaskContext> {
     if (!context.sources) {
-      return context
+      return context.exit('не переданы источники')
     }
 
     return {

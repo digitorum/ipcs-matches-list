@@ -7,7 +7,7 @@ export abstract class AbstractPushSources extends AbstractTask {
 
   protected abstract platform: Platform
 
-  override async perform(context: ITaskContext): Promise<ITaskContext> {
+  override async perform(context: TTaskContext): Promise<TTaskContext> {
     return {
       ...context,
       platform: this.platform,
