@@ -1,4 +1,4 @@
-import { Platform } from "../enum/platform"
+import { Platform } from "../../enums/platform"
 
 import { AbstractPushSources } from "./abstract-push-sources"
 
@@ -6,7 +6,6 @@ export class MatchdayPushMatchesListPage extends AbstractPushSources {
 
   override sources: ITaskContextSources[] = [
     {
-      type: 'html',
       url: 'https://md.ipsc.ru/competitions/'
     }
   ]

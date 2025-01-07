@@ -1,4 +1,4 @@
-import type { Platform } from "../enum/platform"
+import type { Platform } from "../../enums/platform"
 
 import { AbstractTask } from "./abstract-task"
 

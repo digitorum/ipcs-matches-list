@@ -1,7 +1,7 @@
 import { AbstractTask } from "./abstract-task"
 
 import { UrlForProcessing } from '../../db/models'
-import { UrlForProcessingStatus } from "../enum/url-for-processing-status"
+import { UrlForProcessingStatus } from "../../enums/url-for-processing-status"
 
 export class UrlForProcessingPerform extends AbstractTask {
   override async perform(context: TTaskContext): Promise<TTaskContext> {
@@ -26,7 +26,6 @@ export class UrlForProcessingPerform extends AbstractTask {
       platform: url.platformId,
       sources: [
         {
-          type: 'html',
           url: url.url
         }
       ]

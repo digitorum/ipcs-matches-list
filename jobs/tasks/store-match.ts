@@ -1,6 +1,7 @@
 import { Location, UrlForProcessing, Match, Federation, Discipline, MatchDiscipline, City } from '../../db/models'
+import { AbstractMatchResponse } from '../responses/abstract-match-response'
 import { AbstractTask } from "./abstract-task"
-import { UrlForProcessingStatus } from "../enum/url-for-processing-status"
+import { UrlForProcessingStatus } from "../../enums/url-for-processing-status"
 
 export class StoreMatch extends AbstractTask {
 
@@ -31,7 +32,13 @@ export class StoreMatch extends AbstractTask {
         continue
       }
 
-      const match = source.match
+      const match = source.response
+
+      if (!(match instanceof AbstractMatchResponse)) {
+        continue
+      }
+
+      console.log(match)
 
       if (!match) {
         await url.update({ status: UrlForProcessingStatus.Failed })

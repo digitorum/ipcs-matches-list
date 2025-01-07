@@ -2,7 +2,7 @@ import type { CreationOptional, Optional } from 'sequelize'
 
 import { DataTypes, Model, Sequelize } from 'sequelize'
 
-import { UrlForProcessingStatus } from '../../src/enum/url-for-processing-status'
+import { UrlForProcessingStatus } from '../../enums/url-for-processing-status'
 
 type UrlForProcessingAttributes = {
   id: number;

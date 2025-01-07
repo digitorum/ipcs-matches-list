@@ -1,7 +1,8 @@
-import { AbstractTask } from "./abstract-task"
 import { Match, UrlForProcessing } from '../../db/models'
+import { AbstractTask } from "./abstract-task"
 
-import { UrlForProcessingStatus } from '../enum/url-for-processing-status'
+import { AbstractMatchesListResponse } from '../responses/abstract-matches-list-response'
+import { UrlForProcessingStatus } from '../../enums/url-for-processing-status'
 
 export class StoreUrlForProcessing extends AbstractTask {
 
@@ -15,7 +16,17 @@ export class StoreUrlForProcessing extends AbstractTask {
     }
 
     for(let i = 0; i < context.sources.length; i++) {
-      const links = context.sources[i]?.links ?? []
+      const response = context.sources[i]?.response
+
+      if (!response) {
+        continue
+      }
+
+      if (!(response instanceof AbstractMatchesListResponse)) {
+        continue
+      }
+
+      const links = response.list
 
       for(let j = 0; j < links.length; j++) {
         const url = links[j]
