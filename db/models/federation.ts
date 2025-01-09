@@ -1,6 +1,7 @@
 import type { Optional } from 'sequelize'
 
-import { DataTypes, Model, Sequelize } from 'sequelize'
+import { DataTypes, Sequelize } from 'sequelize'
+import { AbstractModel } from './abstract';
 
 type FederationAttributes = {
   id: number;
@@ -10,13 +11,15 @@ type FederationAttributes = {
 
 type FederationCreationAttributes = Optional<FederationAttributes, 'id'>
 
-export class Federation extends Model<FederationAttributes, FederationCreationAttributes> {
+export class Federation extends AbstractModel<FederationAttributes, FederationCreationAttributes> {
   declare id: number;
   declare name: string;
   declare fullName: string | null;
+}
 
-  static associate(sequelize: Sequelize) {
-    Federation.init({
+export class FederationFabric {
+  static init(sequelize: Sequelize) {
+    return Federation.init({
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -34,6 +37,7 @@ export class Federation extends Model<FederationAttributes, FederationCreationAt
     }, {
       sequelize,
       tableName: 'Federations',
+      modelName: 'federation',
       timestamps: false
     })
   }

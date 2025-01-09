@@ -1,2 +1,4 @@
-node_modules/
+.nuxt/
+.output/
 db/data/database.sqlite
+node_modules/

@@ -1,6 +1,7 @@
-import type { Optional } from 'sequelize'
+import type { ModelStatic, Optional } from 'sequelize'
 
-import { DataTypes, Model, Sequelize } from 'sequelize'
+import { DataTypes, Sequelize } from 'sequelize'
+import { AbstractModel } from './abstract';
 
 type CityAttributes = {
   id: number;
@@ -10,13 +11,15 @@ type CityAttributes = {
 
 type CityCreationAttributes = Optional<CityAttributes, 'id'>
 
-export class City extends Model<CityAttributes, CityCreationAttributes> {
+export class City extends AbstractModel<CityAttributes, CityCreationAttributes> {
   declare id: number;
   declare name: string;
   declare country: string;
+}
 
-  static associate(sequelize: Sequelize) {
-    City.init({
+export class CityFabric {
+  static init(sequelize: Sequelize) {
+    return City.init({
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -34,6 +37,7 @@ export class City extends Model<CityAttributes, CityCreationAttributes> {
     }, {
       sequelize,
       tableName: 'Cities',
+      modelName: 'city',
       timestamps: false
     })
   }

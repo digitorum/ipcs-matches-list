@@ -1,7 +1,7 @@
+import type { CreationOptional, ModelStatic, Optional } from 'sequelize'
 
-import type { CreationOptional, Optional } from 'sequelize'
-
-import { Model, DataTypes, Sequelize } from 'sequelize'
+import { DataTypes, Sequelize } from 'sequelize'
+import { AbstractModel } from './abstract'
 
 type MatchAttributes = {
   id: number;
@@ -22,7 +22,7 @@ type MatchAttributes = {
 
 type MatchCreationAttributes = Optional<MatchAttributes, 'id' | 'createdAt' | 'updatedAt'>
 
-export class Match extends Model<MatchAttributes, MatchCreationAttributes> {
+export class Match extends AbstractModel<MatchAttributes, MatchCreationAttributes> {
   declare id: number;
   declare name: string;
   declare url: string;
@@ -38,8 +38,28 @@ export class Match extends Model<MatchAttributes, MatchCreationAttributes> {
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
-  static associate(sequelize: Sequelize) {
-    Match.init({
+  static override associate({ Match, Platform, Federation, Location }: Record<string, ModelStatic<any>>): void {
+    if (!Match) {
+      return
+    }
+
+    if (Platform) {
+      Match.belongsTo(Platform)
+    }
+
+    if (Federation) {
+      Match.belongsTo(Federation)
+    }
+
+    if (Location) {
+      Match.belongsTo(Location)
+    }
+  }
+}
+
+export class MatchModelFabric {
+  static init(sequelize: Sequelize) {
+    return Match.init({
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -116,7 +136,8 @@ export class Match extends Model<MatchAttributes, MatchCreationAttributes> {
       }
     }, {
       sequelize,
-      tableName: 'Matches'
+      tableName: 'Matches',
+      modelName: 'match'
     })
   }
 }

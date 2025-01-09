@@ -1,4 +1,5 @@
-import { DataTypes, Model, Sequelize } from 'sequelize'
+import { DataTypes, Sequelize } from 'sequelize'
+import { AbstractModel } from './abstract';
 
 type MatchDisciplineAttributes = {
   matchId: number;
@@ -7,12 +8,15 @@ type MatchDisciplineAttributes = {
 
 type MatchDisciplineCreationAttributes = MatchDisciplineAttributes
 
-export class MatchDiscipline extends Model<MatchDisciplineAttributes, MatchDisciplineCreationAttributes> {
+export class MatchDiscipline extends AbstractModel<MatchDisciplineAttributes, MatchDisciplineCreationAttributes> {
   declare matchId: number;
   declare disciplineId: number;
+}
 
-  static associate(sequelize: Sequelize) {
-    MatchDiscipline.init({
+export class MatchDisciplineFabric {
+  static init(sequelize: Sequelize) {
+
+    const model = MatchDiscipline.init({
       matchId: {
         allowNull: false,
         type: DataTypes.NUMBER,
@@ -37,9 +41,12 @@ export class MatchDiscipline extends Model<MatchDisciplineAttributes, MatchDisci
     }, {
       sequelize,
       tableName: 'MatchDisciplines',
+      modelName: 'matchDisciplines',
       timestamps: false
     })
 
-    MatchDiscipline.removeAttribute('id')
+    model.removeAttribute('id')
+
+    return model
   }
 }

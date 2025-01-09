@@ -1,8 +1,9 @@
 import type { CreationOptional, Optional } from 'sequelize'
 
-import { DataTypes, Model, Sequelize } from 'sequelize'
+import { DataTypes, Sequelize } from 'sequelize'
 
 import { UrlForProcessingStatus } from '../../enums/url-for-processing-status'
+import { AbstractModel } from './abstract'
 
 type UrlForProcessingAttributes = {
   id: number;
@@ -16,7 +17,7 @@ type UrlForProcessingAttributes = {
 
 type UrlForProcessingCreationAttributes = Optional<UrlForProcessingAttributes, 'id'>
 
-export class UrlForProcessing extends Model<UrlForProcessingAttributes, UrlForProcessingCreationAttributes> {
+export class UrlForProcessing extends AbstractModel<UrlForProcessingAttributes, UrlForProcessingCreationAttributes> {
   declare id: number;
   declare url: string;
   declare platformId: number;
@@ -24,9 +25,11 @@ export class UrlForProcessing extends Model<UrlForProcessingAttributes, UrlForPr
   declare tries: number;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
+}
 
-  static associate(sequelize: Sequelize) {
-    UrlForProcessing.init({
+export class UrlForProcessingFabric {
+  static init(sequelize: Sequelize) {
+    return UrlForProcessing.init({
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -65,7 +68,8 @@ export class UrlForProcessing extends Model<UrlForProcessingAttributes, UrlForPr
       }
     }, {
       sequelize,
-      tableName: 'UrlsForProcessing'
+      tableName: 'UrlsForProcessing',
+      modelName: 'urlForProcessing'
     })
   }
 }

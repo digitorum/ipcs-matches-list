@@ -7,23 +7,36 @@
   "author": "digitorum <pavel.ladygin@gmal.com>",
   "license": "MIT",
   "scripts": {
-    "db:up": "yarn db:migrate:up && yarn db:seed",
-    "db:migrate:up": "sequelize-cli db:migrate",
     "db:migrate:undo": "sequelize-cli db:migrate:undo",
+    "db:migrate:up": "sequelize-cli db:migrate",
     "db:seed": "sequelize-cli db:seed:all",
-    "queue:makeready": "node --import jiti/register scripts/run-job.ts makeready-parse-list-page",
-    "queue:atlima": "node --import jiti/register scripts/run-job.ts atlima-parse-list-page",
-    "queue:matchday": "node --import jiti/register scripts/run-job.ts matchday-parse-list-page",
-    "queue:pending": "node --import jiti/register scripts/run-job.ts perform-links-pending"
-    
+    "db:up": "yarn db:migrate:up && yarn db:seed",
+    "job:fetch-atlima": "node --import jiti/register scripts/run-job.ts atlima-parse-list-page",
+    "job:fetch-makeready": "node --import jiti/register scripts/run-job.ts makeready-parse-list-page",
+    "job:fetch-matchday": "node --import jiti/register scripts/run-job.ts matchday-parse-list-page",
+    "job:fetch-all": "yarn job:fetch-atlima && yarn job:fetch-makeready && yarn job:fetch-matchday",
+    "job:queue": "node --import jiti/register scripts/run-job.ts perform-links-pending",
+    "nuxt:build": "nuxt build",
+    "nuxt:dev": "nuxt dev",
+    "nuxt:generate": "nuxt generate",
+    "nuxt:preview": "nuxt preview"
   },
   "dependencies": {
     "@types/sanitize-html": "^2.13.0",
     "cheerio": "^1.0.0",
     "jiti": "^2.4.2",
+    "nuxt": "^3.15.1",
     "sanitize-html": "^2.14.0",
     "sequelize": "^6.37.5",
     "sequelize-cli": "^6.6.2",
-    "sqlite3": "^5.1.7"
-  }
+    "sqlite3": "^5.1.7",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0",
+    "vuetify-nuxt-module": "0.18.3"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2",
+    "vue-tsc": "^2.2.0"
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

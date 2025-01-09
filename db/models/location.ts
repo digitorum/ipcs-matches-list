@@ -1,6 +1,7 @@
-import type { Optional } from 'sequelize'
+import type { ModelStatic, Optional } from 'sequelize'
 
-import { Model, Sequelize, DataTypes } from 'sequelize'
+import { Sequelize, DataTypes } from 'sequelize'
+import { AbstractModel } from './abstract';
 
 type LocationAttributes = {
   id: number;
@@ -10,13 +11,29 @@ type LocationAttributes = {
 
 type LocationCreationAttributes = Optional<LocationAttributes, 'id'>
 
-export class Location extends Model<LocationAttributes, LocationCreationAttributes> {
+export class Location extends AbstractModel<LocationAttributes, LocationCreationAttributes> {
   declare id: number;
   declare location: string;
   declare cityId: number | null;
 
-  static associate(sequelize: Sequelize) {
-    Location.init({
+  static override associate({ Location, Match, City }: Record<string, ModelStatic<any>>): void {
+    if (!Location) {
+      return
+    }
+
+    if (City) {
+      Location.belongsTo(City)
+    }
+
+    if (Match) {
+      Location.hasMany(Match)
+    }
+  }
+}
+
+export class LocationFabric {
+  static init(sequelize: Sequelize) {
+    return Location.init({
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -34,6 +51,7 @@ export class Location extends Model<LocationAttributes, LocationCreationAttribut
     }, {
       sequelize,
       tableName: 'Locations',
+      modelName: 'location',
       timestamps: false
     })
   }

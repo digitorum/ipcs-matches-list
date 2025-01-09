@@ -1,6 +1,7 @@
 import type { Optional } from 'sequelize'
 
-import { DataTypes, Model, Sequelize } from 'sequelize'
+import { DataTypes, Sequelize } from 'sequelize'
+import { AbstractModel } from './abstract';
 
 type DisciplineAttributes = {
   id: number;
@@ -9,12 +10,14 @@ type DisciplineAttributes = {
 
 type DisciplineCreationAttributes = Optional<DisciplineAttributes, 'id'>
 
-export class Discipline extends Model<DisciplineAttributes, DisciplineCreationAttributes> {
+export class Discipline extends AbstractModel<DisciplineAttributes, DisciplineCreationAttributes> {
   declare id: number;
   declare name: string;
+}
 
-  static associate(sequelize: Sequelize) {
-    Discipline.init({
+export class DisciplineFabric {
+  static init(sequelize: Sequelize) {
+    return Discipline.init({
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -28,6 +31,7 @@ export class Discipline extends Model<DisciplineAttributes, DisciplineCreationAt
     }, {
       sequelize,
       tableName: 'Disciplines',
+      modelName: 'discipline',
       timestamps: false
     })
   }

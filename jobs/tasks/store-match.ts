@@ -38,7 +38,7 @@ export class StoreMatch extends AbstractTask {
         continue
       }
 
-      if (!match) {
+      if (!match || !match.name || !match.startDate) {
         await url.update({ status: UrlForProcessingStatus.Failed })
         continue
       }

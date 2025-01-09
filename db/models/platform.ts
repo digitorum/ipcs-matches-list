@@ -1,6 +1,7 @@
 import type { Optional } from 'sequelize'
 
-import { DataTypes, Model, Sequelize } from 'sequelize'
+import { DataTypes, Sequelize } from 'sequelize'
+import { AbstractModel } from './abstract';
 
 type PlatformAttributes = {
   id: number;
@@ -10,18 +11,18 @@ type PlatformAttributes = {
 
 type PlatformCreationAttributes = Optional<PlatformAttributes, 'id'>
 
-export class Platform extends Model<PlatformAttributes, PlatformCreationAttributes> {
-
-  tableName = ''
-
+export class Platform extends AbstractModel<PlatformAttributes, PlatformCreationAttributes> {
   declare id: number;
   declare name: string;
   declare url: string;
+}
 
-  static associate(sequelize: Sequelize) {
-    Platform.init({
+export class PlatformFabric {
+  static init(sequelize: Sequelize) {
+    return Platform.init({
       id: {
         allowNull: false,
+        autoIncrement: true,
         primaryKey: true,
         type: DataTypes.INTEGER
       },
@@ -36,6 +37,7 @@ export class Platform extends Model<PlatformAttributes, PlatformCreationAttribut
     }, {
       sequelize,
       tableName: 'Platforms',
+      modelName: 'platform',
       timestamps: false
     })
   }

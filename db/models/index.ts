@@ -1,40 +1,53 @@
-import { City } from './city'
-import { Discipline } from './discipline'
-import { Federation } from './federation'
-import { Location } from './location'
-import { Match } from './match'
-import { MatchDiscipline } from './match-discipline'
-import { Platform } from './platform'
-import { Sequelize } from 'sequelize'
-import { UrlForProcessing } from './url-for-processing'
+import { CityFabric } from './city'
+import { DisciplineFabric } from './discipline'
+import { FederationFabric } from './federation'
+import { LocationFabric } from './location'
+import { MatchDisciplineFabric } from './match-discipline'
+import { MatchModelFabric } from './match'
+import { PlatformFabric } from './platform'
+import { Model, Sequelize } from 'sequelize'
+import { UrlForProcessingFabric } from './url-for-processing'
 
-const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
+import * as configs from '../config/config.json'
+
+const env = process.env.NODE_ENV || 'development'
+const config = (configs as any)[env]
 const sequelize = new Sequelize(config.database, config.username, config.password, config)
 
-const models = [
+const City = CityFabric.init(sequelize)
+const Discipline = DisciplineFabric.init(sequelize)
+const Federation = FederationFabric.init(sequelize)
+const Location = LocationFabric.init(sequelize)
+const Match = MatchModelFabric.init(sequelize)
+const MatchDiscipline = MatchDisciplineFabric.init(sequelize)
+const Platform = PlatformFabric.init(sequelize)
+const UrlForProcessing = UrlForProcessingFabric.init(sequelize)
+
+const models: Record<string, any> = {
   City,
-  Location,
+  Match,
   Discipline,
   Federation,
-  Match,
+  Location,
   MatchDiscipline,
   Platform,
   UrlForProcessing
-]
+}
 
-models.forEach(function(model) {
-  if (model.associate) {
-    model.associate(sequelize)
+Object.keys(models).forEach(function(key) {
+  if (models[key].associate) {
+    models[key].associate(models)
   }
 })
 
+
+
 export {
   City,
-  Location,
+  Match,
   Discipline,
   Federation,
-  Match,
+  Location,
   MatchDiscipline,
   Platform,
   UrlForProcessing
