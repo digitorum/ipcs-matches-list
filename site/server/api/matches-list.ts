@@ -1,5 +1,3 @@
-import { Op } from 'sequelize'
-
 import { prisma } from '../../../db'
 
 export default defineEventHandler(async (event) => {
