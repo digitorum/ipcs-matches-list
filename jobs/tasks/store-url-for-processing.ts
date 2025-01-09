@@ -1,12 +1,13 @@
-import { Match, UrlForProcessing } from '../../db/models'
-import { AbstractTask } from "./abstract-task"
-
-import { AbstractMatchesListResponse } from '../responses/abstract-matches-list-response'
 import { UrlForProcessingStatus } from '../../enums/url-for-processing-status'
+
+import { AbstractTask } from "./abstract-task"
+import { AbstractMatchesListResponse } from '../responses/abstract-matches-list-response'
+
+import { prisma } from '../../db'
 
 export class StoreUrlForProcessing extends AbstractTask {
 
-  override async perform(context: TTaskContext): Promise<TTaskContext> {
+  override async perform(context:Task.TContext): Promise<Task.TContext> {
     if (!context.sources) {
       return context.exit('StoreUrlForProcessing / не переданы источники')
     }
@@ -35,7 +36,7 @@ export class StoreUrlForProcessing extends AbstractTask {
           continue
         }
 
-        const queuedCount = await UrlForProcessing.count({
+        const queuedCount = await prisma.urlForProcessing.count({
           where: {
             url,
             platformId: context.platform
@@ -46,7 +47,7 @@ export class StoreUrlForProcessing extends AbstractTask {
           continue
         }
 
-        const matchesWithUrlCount = await Match.count({
+        const matchesWithUrlCount = await prisma.match.count({
           where: {
             url,
             platformId: context.platform
@@ -57,11 +58,13 @@ export class StoreUrlForProcessing extends AbstractTask {
           continue
         }
   
-        await UrlForProcessing.create({
-          url,
-          status: UrlForProcessingStatus.Waitig,
-          platformId: context.platform,
-          tries: 0
+        await prisma.urlForProcessing.create({
+          data: {
+            url,
+            status: UrlForProcessingStatus.Waitig,
+            platformId: context.platform,
+            tries: 0
+          }
         })
       }
     }

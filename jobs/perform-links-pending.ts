@@ -2,11 +2,11 @@ import { FetchMatchSources } from "./tasks/fetch-match-sources"
 import { Job } from "./job"
 import { StoreMatch } from './tasks/store-match'
 import { UrlForProcessingMarkUndone } from "./tasks/url-for-processing-mark-undone"
-import { UrlForProcessingPerform } from "./tasks/url-for-processing-perform"
+import { UrlForProcessingShift } from "./tasks/url-for-processing-shift"
 
 export const job = new Job()
   .try([
-    UrlForProcessingPerform,
+    UrlForProcessingShift,
     FetchMatchSources,
     StoreMatch
   ])

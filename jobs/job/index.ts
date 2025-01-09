@@ -31,7 +31,7 @@ export class Job {
   }
 
   public async perform() {
-    let context: TTaskContext = {
+    let context: Task.TContext = {
       exit: this.exit
     }
     

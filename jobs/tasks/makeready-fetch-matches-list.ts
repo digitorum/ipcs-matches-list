@@ -2,7 +2,7 @@ import { MakereadyMatchesList } from "../responses/makeready-matches-list"
 import { FetchHtml } from "./fetch-html"
 
 export class MakereadyFetchMatchesList extends FetchHtml {
-  override async perform(context: TTaskContext): Promise<TTaskContext> {
+  override async perform(context:Task.TContext): Promise<Task.TContext> {
 
     if (!context.sources) {
       return context.exit('MakereadyFetchMatchesList / не переданы источники')

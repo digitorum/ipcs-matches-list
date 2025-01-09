@@ -6,7 +6,7 @@ import { Platform } from "../../enums/platform"
 
 export class FetchMatchSources extends AbstractTask {
 
-  override async perform(context: TTaskContext): Promise<TTaskContext> {
+  override async perform(context:Task.TContext): Promise<Task.TContext> {
 
     if (!context.sources) {
       return context.exit('FetchMatchSources / не переданы источники')

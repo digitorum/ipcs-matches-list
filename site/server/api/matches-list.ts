@@ -1,55 +1,48 @@
 import { Op } from 'sequelize'
 
-import { Match, Location, Federation, Platform, City } from '../../../db/models'
+import { prisma } from '../../../db'
 
 export default defineEventHandler(async (event) => {
-  const matches = await Match.findAll({
-    include: [
-      {
-        model: Federation,
-        attributes: [
-          'name'
-        ]
+
+  const matches = await prisma.match.findMany({
+    select: {
+      name: true,
+      url: true,
+      startDate: true,
+      endDate: true,
+      level: true,
+      exercisesCount: true,
+      minimumShots: true,
+      price: true,
+      federation: {
+        select: {
+          name: true
+        }
       },
-      {
-        model: Location,
-        attributes: [
-          'location'
-        ],
-        include: [
-          {
-            model: City,
-            attributes: [
-              'name'
-            ],
+      location: {
+        select: {
+          description: true,
+          city: {
+            select: {
+              name: true
+            }
           }
-        ]
+        }
       },
-      {
-        model: Platform,
-        attributes: [
-          'name'
-        ]
-      }
-    ],
-    where: {
-      startDate: {
-        [Op.gte]: new Date()
+      platform: {
+        select: {
+          name: true
+        }
       }
     },
-    order: [
-      ['startDate', 'ASC']
-    ],
-    attributes: [
-      'name',
-      'url',
-      'startDate',
-      'endDate',
-      'level',
-      'exercisesCount',
-      'minimumShots',
-      'price'
-    ]
+    where: {
+      startDate: {
+        gte: new Date()
+      }
+    },
+    orderBy: {
+      startDate: 'asc'
+    }
   })
 
   return {

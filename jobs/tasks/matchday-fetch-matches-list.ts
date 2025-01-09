@@ -2,7 +2,7 @@ import { FetchHtml } from "./fetch-html"
 import { MatchdayMatchesList } from "../responses/matchday-matches-list"
 
 export class MatchdayFetchMatchesList extends FetchHtml {
-  override async perform(context: TTaskContext): Promise<TTaskContext> {
+  override async perform(context:Task.TContext): Promise<Task.TContext> {
 
     if (!context.sources) {
       return context.exit('MatchdayFetchMatchesList / не переданы источники')

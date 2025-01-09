@@ -173,7 +173,7 @@ import { cutspace } from '../lib/string';
         city: {
           sort:  match.location.city?.name ?? '',
           name: match.location.city?.name ?? '...',
-          location: match.location.location
+          location: match.location.description
         }
       }
     }) ?? []

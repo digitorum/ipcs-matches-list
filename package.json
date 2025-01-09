@@ -7,9 +7,9 @@
   "author": "digitorum <pavel.ladygin@gmal.com>",
   "license": "MIT",
   "scripts": {
-    "db:migrate:undo": "sequelize-cli db:migrate:undo",
-    "db:migrate:up": "sequelize-cli db:migrate",
-    "db:seed": "sequelize-cli db:seed:all",
+    "db:generate:client": "prisma generate",
+    "db:generate:migration": "prisma migrate dev",
+    "db:seed": "prisma db seed",
     "db:up": "yarn db:migrate:up && yarn db:seed",
     "job:fetch-atlima": "node --import jiti/register scripts/run-job.ts atlima-parse-list-page",
     "job:fetch-makeready": "node --import jiti/register scripts/run-job.ts makeready-parse-list-page",
@@ -22,13 +22,13 @@
     "nuxt:preview": "nuxt preview"
   },
   "dependencies": {
+    "@prisma/client": "^6.2.1",
     "@types/sanitize-html": "^2.13.0",
     "cheerio": "^1.0.0",
     "jiti": "^2.4.2",
     "nuxt": "^3.15.1",
+    "prisma": "^6.2.1",
     "sanitize-html": "^2.14.0",
-    "sequelize": "^6.37.5",
-    "sequelize-cli": "^6.6.2",
     "sqlite3": "^5.1.7",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0",
@@ -37,6 +37,10 @@
   "devDependencies": {
     "typescript": "^5.7.2",
     "vue-tsc": "^2.2.0"
+  },
+  "prisma": {
+    "schema": "db/schema.prisma",
+    "seed": "node --import jiti/register db/seed.ts"
   },
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

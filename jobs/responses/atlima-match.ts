@@ -42,8 +42,14 @@ export class AtlimaMatch extends AbstractMatchResponse {
     if (!str) {
       return null
     }
+
+    const date = str.split('T')[0] ?? null
   
-    return str.split('T')[0] ?? null
+    if (!date) {
+      return null
+    }
+
+    return `${date}T00:00:00Z`
   }
   
   override get name(): string {

@@ -21,14 +21,14 @@ export class MatchdayMatch extends AbstractHtmlMatchResponse {
   }
 
   override get startDate(): string {
-    return this.getDateFromSrcDate(this.matchInfo?.[0]?.split('-')[0] ?? '')
+    return this.getDateTimeFromSrcDate(this.matchInfo?.[0]?.split('-')[0] ?? '')
   }
 
   override get endDate(): string | null {
     const date = this.matchInfo?.[0]?.split('-')[1]
 
     return date
-      ? this.getDateFromSrcDate(date)
+      ? this.getDateTimeFromSrcDate(date)
       : null
   }
 

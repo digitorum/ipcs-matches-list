@@ -1,0 +1,96 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./data/database.sqlite"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Platform {
+  id                Int                @id @default(autoincrement())
+  name              String
+  url               String
+  matches           Match[]
+  urlsForProcessing UrlForProcessing[]
+
+  @@map("platforms")
+}
+
+model Federation {
+  id       Int     @id @default(autoincrement())
+  name     String  @unique
+  fullName String? @default(dbgenerated("NULL"))
+  matches  Match[]
+
+  @@map("federations")
+}
+
+model City {
+  id        Int        @id @default(autoincrement())
+  name      String     @unique
+  country   String?    @default(dbgenerated("NULL"))
+  locations Location[]
+
+  @@map("cities")
+}
+
+model Location {
+  id          Int     @id @default(autoincrement())
+  description String  @unique
+  city        City?   @relation(fields: [cityId], references: [id])
+  cityId      Int?    @default(dbgenerated("NULL"))
+  matches     Match[]
+
+  @@map("locations")
+}
+
+model Discipline {
+  id      Int                  @id @default(autoincrement())
+  name    String               @unique
+  matches DisciplinesOnMatch[]
+
+  @@map("disciplines")
+}
+
+model Match {
+  id             Int                  @id @default(autoincrement())
+  name           String
+  url            String               @unique
+  platform       Platform             @relation(fields: [platformId], references: [id])
+  platformId     Int
+  federation     Federation?          @relation(fields: [federationId], references: [id])
+  federationId   Int?                 @default(dbgenerated("NULL"))
+  startDate      DateTime
+  endDate        DateTime?            @default(dbgenerated("NULL"))
+  level          Int
+  exercisesCount Int
+  minimumShots   Int
+  price          String
+  location       Location             @relation(fields: [locationId], references: [id])
+  locationId     Int
+  disciplines    DisciplinesOnMatch[]
+
+  @@map("matches")
+}
+
+model DisciplinesOnMatch {
+  match        Match      @relation(fields: [matchId], references: [id])
+  matchId      Int
+  discipline   Discipline @relation(fields: [disciplineId], references: [id])
+  disciplineId Int
+
+  @@unique([matchId, disciplineId])
+  @@map("disciplines_on_match")
+}
+
+model UrlForProcessing {
+  id         Int      @id @default(autoincrement())
+  url        String
+  platform   Platform @relation(fields: [platformId], references: [id])
+  platformId Int
+  status     Int
+  tries      Int
+
+  @@map("url_for_processing")
+}

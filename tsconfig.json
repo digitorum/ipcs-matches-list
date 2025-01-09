@@ -23,7 +23,8 @@
     "lib": [
       "es2022",
       "dom",
-      "dom.iterable"
+      "dom.iterable",
+      "esnext.asynciterable"
     ],
     "paths": {
       

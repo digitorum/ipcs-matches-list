@@ -11,7 +11,7 @@ export class AtlimaPushMatchesListPages extends AbstractPushSources {
     return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
   }
 
-  override sources: ITaskContextSources[] = [
+  override sources: Task.IContextSources[] = [
     {
       url: `https://atlima.com/api/sports-events?page=1&client_date=${AtlimaPushMatchesListPages.currentDate}&ordering=start_event_date&future=1`
     },

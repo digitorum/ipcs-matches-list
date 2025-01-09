@@ -12,12 +12,13 @@ export abstract class AbstractMatchResponse {
   abstract get price(): string
   abstract get city(): string | null
 
-  protected getDateFromSrcDate(str: string, srcFormat: string = 'dd.MM.yyyy') {
+  protected getDateTimeFromSrcDate(str: string, srcFormat: string = 'dd.MM.yyyy') {
     if (!str) {
       return ''
     }
+    const date = str.trim().split('.').reverse().join('-')
 
-    return str.trim().split('.').reverse().join('-')
+    return `${date}T00:00:00Z`
   }
 
 }

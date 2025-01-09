@@ -1,16 +1,19 @@
-type TTaskContext = {
-  exit: Function;
-} & Partial<{
-  
-  platform: number;
-  sources: ITaskContextSources[];
-}>
+namespace Task {
 
-interface ITaskContextSources {
-  baseurl?: string;
-  links?: string[];
-  response?: any;
-  url: string;
+  type TContext = {
+    exit: Function;
+  } & Partial<{
+    
+    platform: number;
+    sources: IContextSources[];
+  }>
+  
+  interface IContextSources {
+    baseurl?: string;
+    links?: string[];
+    response?: any;
+    url: string;
+  }
 }
 
 namespace Site {
@@ -31,7 +34,7 @@ namespace Site {
           name: string;
         } | null;
         location: {
-          location: string;
+          description: string;
           city: {
             name: string;
           } | null;

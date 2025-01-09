@@ -4,7 +4,7 @@ import { AbstractPushSources } from "./abstract-push-sources"
 
 export class MakereadyPushMatchesListPage extends AbstractPushSources {
 
-  override sources: ITaskContextSources[] = [
+  override sources: Task.IContextSources[] = [
     {
       url: 'https://www.makeready.ru/'
     }

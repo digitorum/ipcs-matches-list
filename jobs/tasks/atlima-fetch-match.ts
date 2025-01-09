@@ -13,7 +13,7 @@ export class AtlimaFetchMatch extends FetchJson {
     return `https://atlima.com/api/sports-events/${matches[1]}`
   }
 
-  override async perform(context: TTaskContext): Promise<TTaskContext> {
+  override async perform(context:Task.TContext): Promise<Task.TContext> {
   
       if (!context.sources) {
         return context.exit('AtlimaFetchMatch / не переданы источники')

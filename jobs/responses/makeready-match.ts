@@ -103,11 +103,11 @@ export class MakereadyMatch extends AbstractHtmlMatchResponse {
   }
 
   override get startDate(): string {
-    return this.getDateFromSrcDate(this.commonMatchInfo.startDate)
+    return this.getDateTimeFromSrcDate(this.commonMatchInfo.startDate)
   }
 
   override get endDate(): string | null {
-    return this.commonMatchInfo.endDate && this.getDateFromSrcDate(this.commonMatchInfo.endDate)
+    return this.commonMatchInfo.endDate && this.getDateTimeFromSrcDate(this.commonMatchInfo.endDate)
   }
 
   override get level(): number {
