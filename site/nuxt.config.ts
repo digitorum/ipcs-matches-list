@@ -7,6 +7,6 @@ export default defineNuxtConfig({
     typeCheck: true
   },
   modules: [
-    'vuetify-nuxt-module'
+    '@nuxt/ui'
   ]
 })
