@@ -17,9 +17,8 @@
     "job:fetch-all": "yarn job:fetch-atlima && yarn job:fetch-makeready && yarn job:fetch-matchday",
     "job:queue": "node --import jiti/register scripts/run-job.ts perform-links-pending",
     "nuxt:build": "nuxt build",
+    "nuxt:start": "node .output/server/index.mjs",
     "nuxt:dev": "nuxt dev",
-    "nuxt:generate": "nuxt generate",
-    "nuxt:preview": "nuxt preview",
     "lint": "node ./node_modules/eslint/bin/eslint.js \"./**/*.{js,ts,vue}\" --ignore-pattern 'types/*' --fix"
   },
   "dependencies": {
