@@ -1,4 +1,4 @@
-import { AbstractHtmlMatchResponse } from "./abstract-html-match-response";
+import { AbstractHtmlMatchResponse } from './abstract-html-match-response';
 
 const levelMap: Record<string, number> = {
   'I': 1,
@@ -53,7 +53,7 @@ export class MakereadyMatch extends AbstractHtmlMatchResponse {
         return result
       }
     
-      const matches = src.match(/^([0-9\s\.-]+)\s*,\s*(.*?)\s*\/\s*(.*?)$/)
+      const matches = src.match(/^([0-9\s.-]+)\s*,\s*(.*?)\s*\/\s*(.*?)$/)
     
       if (!matches) {
         return result

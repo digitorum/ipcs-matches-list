@@ -1,3 +1,8 @@
+interface ILogger {
+  log(entity: string, message: string): void;
+  free(): void;
+}
+
 namespace Task {
 
   type TContext = {

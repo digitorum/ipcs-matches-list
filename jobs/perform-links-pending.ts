@@ -1,10 +1,13 @@
-import { FetchMatchSources } from "./tasks/fetch-match-sources"
-import { Job } from "./job"
+import { FetchMatchSources } from './tasks/fetch-match-sources'
+import { Job } from './job'
+import { Logger } from '../common/logger'
 import { StoreMatch } from './tasks/store-match'
-import { UrlForProcessingMarkUndone } from "./tasks/url-for-processing-mark-undone"
-import { UrlForProcessingShift } from "./tasks/url-for-processing-shift"
+import { UrlForProcessingMarkUndone } from './tasks/url-for-processing-mark-undone'
+import { UrlForProcessingShift } from './tasks/url-for-processing-shift'
 
-export const job = new Job()
+export const job = new Job(
+  new Logger()
+)
   .try([
     UrlForProcessingShift,
     FetchMatchSources,

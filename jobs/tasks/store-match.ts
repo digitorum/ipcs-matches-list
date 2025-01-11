@@ -1,6 +1,6 @@
 import { AbstractMatchResponse } from '../responses/abstract-match-response'
-import { AbstractTask } from "./abstract-task"
-import { UrlForProcessingStatus } from "../../enums/url-for-processing-status"
+import { AbstractTask } from './abstract-task'
+import { UrlForProcessingStatus } from '../../enums/url-for-processing-status'
 
 import { prisma } from '../../db'
 
@@ -9,11 +9,13 @@ export class StoreMatch extends AbstractTask {
   override async perform(context:Task.TContext): Promise<Task.TContext> {
 
     if (!context.sources) {
-      return context.exit('StoreMatch / не переданы источники')
+      await this.logger.log('StoreMatch', 'Не переданы источники')
+      return context.exit()
     }
 
     if (!context.platform) {
-      return context.exit('StoreMatch / не передана платформа')
+      await this.logger.log('StoreMatch', 'Не передана платформа')
+      return context.exit()
     }
 
     for(let i = 0; i < context.sources.length; i++) {

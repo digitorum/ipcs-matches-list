@@ -1,4 +1,4 @@
-import { AbstractMatchResponse } from "./abstract-match-response";
+import { AbstractMatchResponse } from './abstract-match-response';
 
 type TAtlimaMatchResponse = {
   title?: string;

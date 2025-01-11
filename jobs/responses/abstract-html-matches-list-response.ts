@@ -1,7 +1,7 @@
 import type { Element } from 'domhandler';
 
 import * as cheerio from 'cheerio'
-import { AbstractMatchesListResponse } from "./abstract-matches-list-response";
+import { AbstractMatchesListResponse } from './abstract-matches-list-response';
 
 export abstract class AbstractHtmlMatchesListResponse extends AbstractMatchesListResponse {
   

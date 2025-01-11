@@ -1,4 +1,4 @@
-import { AbstractHtmlMatchResponse } from "./abstract-html-match-response";
+import { AbstractHtmlMatchResponse } from './abstract-html-match-response';
 
 import * as cheerio from 'cheerio'
 

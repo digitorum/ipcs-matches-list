@@ -1,4 +1,4 @@
-import { AbstractMatchesListResponse } from "./abstract-matches-list-response";
+import { AbstractMatchesListResponse } from './abstract-matches-list-response';
 
 export class AtlimaMatchesList extends AbstractMatchesListResponse {
   constructor(

@@ -1,4 +1,4 @@
-import { AbstractFetch } from "./abstract-fetch";
+import { AbstractFetch } from './abstract-fetch';
 
 export class FetchJson extends AbstractFetch {
 
@@ -14,7 +14,9 @@ export class FetchJson extends AbstractFetch {
       return await res.json()
     }
 
-    throw `can not fetch ${source}`
+    await this.logger.log('FetchJson', `Невозможно получить ресурс ${source}`)
+
+    throw 'fetch error'
   }
 
 }

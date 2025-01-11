@@ -1,4 +1,4 @@
-import { AbstractTask } from "./abstract-task"
+import { AbstractTask } from './abstract-task'
 
 export abstract class AbstractFetch extends AbstractTask {
 
@@ -6,7 +6,8 @@ export abstract class AbstractFetch extends AbstractTask {
 
   override async perform(context:Task.TContext): Promise<Task.TContext> {
     if (!context.sources) {
-      return context.exit('AbstractFetch / не переданы источники')
+      await this.logger.log('AbstractFetch', 'Не переданы источники')
+      return context.exit()
     }
 
     const sources = await Promise.all(context.sources.map(async (source) => {

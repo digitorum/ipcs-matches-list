@@ -1,6 +1,6 @@
-import type { Platform } from "../../enums/platform"
+import type { Platform } from '../../enums/platform'
 
-import { AbstractTask } from "./abstract-task"
+import { AbstractTask } from './abstract-task'
 
 export abstract class AbstractPushSources extends AbstractTask {
   protected abstract sources: Task.IContextSources[]

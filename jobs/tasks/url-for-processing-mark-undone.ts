@@ -1,7 +1,7 @@
-import { AbstractTask } from "./abstract-task"
+import { AbstractTask } from './abstract-task'
 
 import { prisma } from '../../db'
-import { UrlForProcessingStatus } from "../../enums/url-for-processing-status"
+import { UrlForProcessingStatus } from '../../enums/url-for-processing-status'
 
 export class UrlForProcessingMarkUndone extends AbstractTask {
   override async perform(context:Task.TContext): Promise<Task.TContext> {

@@ -1,7 +1,6 @@
-import { UrlForProcessingStatus } from '../../enums/url-for-processing-status'
-
-import { AbstractTask } from "./abstract-task"
 import { AbstractMatchesListResponse } from '../responses/abstract-matches-list-response'
+import { AbstractTask } from './abstract-task'
+import { UrlForProcessingStatus } from '../../enums/url-for-processing-status'
 
 import { prisma } from '../../db'
 
@@ -9,11 +8,13 @@ export class StoreUrlForProcessing extends AbstractTask {
 
   override async perform(context:Task.TContext): Promise<Task.TContext> {
     if (!context.sources) {
-      return context.exit('StoreUrlForProcessing / не переданы источники')
+      await this.logger.log('StoreUrlForProcessing', 'Не переданы источники')
+      return context.exit()
     }
 
     if (!context.platform) {
-      return context.exit('StoreUrlForProcessing / не передана платформа')
+      await this.logger.log('StoreUrlForProcessing', 'Не передана платформа')
+      return context.exit()
     }
 
     for(let i = 0; i < context.sources.length; i++) {

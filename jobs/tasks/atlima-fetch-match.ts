@@ -1,5 +1,5 @@
-import { AtlimaMatch } from "../responses/atlima-match"
-import { FetchJson } from "./fetch-json"
+import { AtlimaMatch } from '../responses/atlima-match'
+import { FetchJson } from './fetch-json'
 
 export class AtlimaFetchMatch extends FetchJson {
 
@@ -16,7 +16,8 @@ export class AtlimaFetchMatch extends FetchJson {
   override async perform(context:Task.TContext): Promise<Task.TContext> {
   
       if (!context.sources) {
-        return context.exit('AtlimaFetchMatch / не переданы источники')
+        await this.logger.log('AtlimaFetchMatch', 'Не переданы источники')
+        return context.exit()
       }
   
       return {

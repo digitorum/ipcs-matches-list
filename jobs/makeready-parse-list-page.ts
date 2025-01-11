@@ -1,9 +1,12 @@
-import { Job } from "./job"
-import { MakereadyPushMatchesListPage } from "./tasks/makeready-push-matches-list-page"
+import { Job } from './job'
+import { Logger } from '../common/logger'
+import { MakereadyFetchMatchesList } from './tasks/makeready-fetch-matches-list'
+import { MakereadyPushMatchesListPage } from './tasks/makeready-push-matches-list-page'
 import { StoreUrlForProcessing } from './tasks/store-url-for-processing'
-import { MakereadyFetchMatchesList } from "./tasks/makeready-fetch-matches-list"
 
-export const job = new Job()
+export const job = new Job(
+  new Logger()
+)
   .try([
     MakereadyPushMatchesListPage,
     MakereadyFetchMatchesList,

@@ -1,10 +1,11 @@
-import { AbstractTask } from "./abstract-task"
-import { UrlForProcessingStatus } from "../../enums/url-for-processing-status"
+import { AbstractTask } from './abstract-task'
+import { UrlForProcessingStatus } from '../../enums/url-for-processing-status'
 
 import { prisma } from '../../db'
 
 export class UrlForProcessingShift extends AbstractTask {
   override async perform(context:Task.TContext): Promise<Task.TContext> {
+
     const url = await prisma.urlForProcessing.findFirst({
       where: {
         status: UrlForProcessingStatus.Waitig
@@ -15,7 +16,8 @@ export class UrlForProcessingShift extends AbstractTask {
     })
 
     if (!url) {
-      return context.exit('очередь пуста')
+      await this.logger.log('UrlForProcessingShift', 'Очередь пуста')
+      return context.exit()
     }
 
     await prisma.urlForProcessing.update({

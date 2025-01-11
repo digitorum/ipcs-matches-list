@@ -1,4 +1,4 @@
-import { AbstractHtmlMatchesListResponse } from "./abstract-html-matches-list-response"
+import { AbstractHtmlMatchesListResponse } from './abstract-html-matches-list-response'
 
 export class MakereadyMatchesList extends AbstractHtmlMatchesListResponse {
   protected override selectors = [

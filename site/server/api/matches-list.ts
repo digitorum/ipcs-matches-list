@@ -1,6 +1,6 @@
 import { prisma } from '../../../db'
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async () => {
 
   const matches = await prisma.match.findMany({
     select: {

@@ -1,11 +1,12 @@
-import { MakereadyMatchesList } from "../responses/makeready-matches-list"
-import { FetchHtml } from "./fetch-html"
+import { FetchHtml } from './fetch-html'
+import { MakereadyMatchesList } from '../responses/makeready-matches-list'
 
 export class MakereadyFetchMatchesList extends FetchHtml {
   override async perform(context:Task.TContext): Promise<Task.TContext> {
 
     if (!context.sources) {
-      return context.exit('MakereadyFetchMatchesList / не переданы источники')
+      await this.logger.log('MakereadyFetchMatchesList', 'Не переданы источники')
+      return context.exit()
     }
 
     return {

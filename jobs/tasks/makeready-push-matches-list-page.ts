@@ -1,6 +1,6 @@
-import { Platform } from "../../enums/platform"
+import { Platform } from '../../enums/platform'
 
-import { AbstractPushSources } from "./abstract-push-sources"
+import { AbstractPushSources } from './abstract-push-sources'
 
 export class MakereadyPushMatchesListPage extends AbstractPushSources {
 

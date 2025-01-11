@@ -86,6 +86,12 @@
   </UTable>
 </template>
 
+<script>
+  export default {
+    name: 'HomePage'
+  }
+</script>
+
 <script setup lang="ts">
   
 import { cutspace } from '../lib/string';
