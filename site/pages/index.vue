@@ -1,79 +1,89 @@
 <template>
-    <UTable
-      :columns="columns"
-      :rows="matches">
-    
-      <template #date-data="{ row }">
-        {{ row.dateDiapason }}
-      </template>
+  <UTable
+    :columns="columns"
+    :rows="matches"
+    :ui="{
+      td: {
+        base: ''
+      }
+    }">
+  
+    <template #date-data="{ row }">
+      {{ row.dateDiapason }}
+    </template>
 
-      <template #match-data="{ row }">
-        <ULink
-          :to="row.url"
-          target="_blank">
-          {{ row.name }}
-        </ULink>
-        
-        <UTooltip
-          v-if="row.level"
-          text="Уровень">
-          <UBadge
-            :icon="`i-tabler-circle-number-${row.level}`"
-            :ui="{ rounded: 'rounded-full' }"
-            class="mr-2"
-            color="primary"
-            size="xs"
-            variant="soft" />
-        </UTooltip>
-
-        <UTooltip
-          v-if="row.exercisesCount"
-          text="Количество упражнений">
-          <UBadge
-            :ui="{ rounded: 'rounded-full' }"
-            class="mr-2"
-            color="green"
-            icon="i-tabler-file"
-            size="xs"
-            variant="soft">
-            {{ row.exercisesCount }}
-          </UBadge>
-        </UTooltip>
-
-        <UTooltip
-          v-if="row.minimumShots"
-          text="Количество выстрелов (минимум)">
-          <UBadge
-            :ui="{ rounded: 'rounded-full' }"
-            class="mr-2"
-            color="indigo"
-            icon="i-tabler-sum"
-            size="xs"
-            variant="soft">
-            {{ row.minimumShots }}
-          </UBadge>
-        </UTooltip>
-      </template>
-
-      <template #price-data="{ row }">
-        <template v-if="row.rawPrice">
+    <template #match-data="{ row }">
+      <div
+        class="flex">
+        <div
+          class="grow">
+          <ULink
+            :to="row.url"
+            target="_blank">
+            {{ row.name }}
+          </ULink>
+        </div>
+        <div>
           <UTooltip
-            :text="row.rawPrice">
-            {{ row.price }}
+            v-if="row.level"
+            text="Уровень">
+            <UBadge
+              :icon="`i-tabler-circle-number-${row.level}`"
+              :ui="{ rounded: 'rounded-full' }"
+              class="ml-2"
+              color="primary"
+              size="xs"
+              variant="soft" />
           </UTooltip>
-        </template>
-        <template v-else>
-          {{ row.price }}
-        </template>
-      </template>
+          <UTooltip
+            v-if="row.exercisesCount"
+            text="Количество упражнений">
+            <UBadge
+              :ui="{ rounded: 'rounded-full' }"
+              class="ml-2"
+              color="green"
+              icon="i-tabler-file"
+              size="xs"
+              variant="soft">
+              {{ row.exercisesCount }}
+            </UBadge>
+          </UTooltip>
+          <UTooltip
+            v-if="row.minimumShots"
+            text="Количество выстрелов (минимум)">
+            <UBadge
+              :ui="{ rounded: 'rounded-full' }"
+              class="ml-2"
+              color="indigo"
+              icon="i-tabler-sum"
+              size="xs"
+              variant="soft">
+              {{ row.minimumShots }}
+            </UBadge>
+          </UTooltip>
+        </div>
+      </div>
+    </template>
 
-      <template #city-data="{ row }">
+    <template #price-data="{ row }">
+      <template v-if="row.rawPrice">
         <UTooltip
-          :text="row.location">
-          {{ row.city }}
+          :text="row.rawPrice">
+          {{ row.price }}
         </UTooltip>
       </template>
-    </UTable>
+      <template v-else>
+        {{ row.price }}
+      </template>
+    </template>
+
+    <template #city-data="{ row }">
+      <UTooltip
+        :text="row.location">
+        {{ row.city }}
+      </UTooltip>
+    </template>
+  </UTable>
 </template>
 
 <script setup lang="ts">
