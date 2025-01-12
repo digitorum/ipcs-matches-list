@@ -8,6 +8,7 @@ import { UrlForProcessingShift } from './tasks/url-for-processing-shift'
 export const job = new Job(
   new Logger()
 )
+  .schedule('*/5 * * * *')
   .try([
     UrlForProcessingShift,
     FetchMatchSources,

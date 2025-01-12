@@ -1,3 +1,4 @@
+import { freeResources } from '../common/free-resources'
 import { Logger } from '../common/logger'
 import { PrismaClient } from '@prisma/client'
 
@@ -11,8 +12,4 @@ async function disconnect(event: string) {
   logger.free()
 }
 
-const events = ['exit', 'SIGINT', 'SIGUSR1', 'SIGUSR2', 'uncaughtException', 'SIGTERM']
-
-events.forEach((eventType) => {
-  process.on(eventType, disconnect.bind(null, eventType))
-})
+await freeResources(disconnect)

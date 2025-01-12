@@ -8,9 +8,18 @@ export class Job {
 
   }
 
+  private cronParrent: string = ''
   private tasks: AbstractTaskConstructor[] = []
-
   private failure: AbstractTaskConstructor | null = null
+
+  public get cron(): string {
+    return this.cronParrent
+  }
+
+  public schedule(cronParrent: string) {
+    this.cronParrent = cronParrent
+    return this
+  }
 
   public try(tasks: AbstractTaskConstructor[]) {
     this.tasks = tasks
@@ -25,11 +34,12 @@ export class Job {
   }
 
   private exit() {
-    this.tasks = []
-    process.exit(0)
+    throw 'exit'
   }
 
   public async perform() {
+    this.logger.log('Job', 'Запуск задачи')
+
     let context: Task.TContext = {
       exit: this.exit
     }
@@ -46,7 +56,11 @@ export class Job {
       }
     } catch(e) {
       if (this.failure) {
-        return await new this.failure(this.logger).perform(context)
+        try {
+          return await new this.failure(this.logger).perform(context)
+        } catch {
+          // nothing
+        }
       }
     } finally {
       this.logger.free()

@@ -7,6 +7,7 @@ import { StoreUrlForProcessing } from './tasks/store-url-for-processing'
 export const job = new Job(
   new Logger()
 )
+  .schedule('0 * * * *')
   .try([
     MatchdayPushMatchesListPage,
     MatchdayFetchMatchesList,
