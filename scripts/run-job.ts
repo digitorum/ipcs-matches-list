@@ -1,5 +1,5 @@
-import path from 'path'
+import { Job } from '../jobs/job'
 
-const job = (await import(path.resolve(process.cwd(), `./jobs/${process.argv.slice(2)[0]}.ts`))).job
+const { tasks, failureTask } = await Job.loadSchemaFile(process.argv.slice(2)[0])
 
-await job.perform()
+await Job.create(tasks, failureTask).perform()

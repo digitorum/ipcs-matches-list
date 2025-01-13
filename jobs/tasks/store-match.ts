@@ -142,6 +142,8 @@ export class StoreMatch extends AbstractTask {
         })
       }
 
+      await this.logger.log('StoreMatch', `Событие обработано: ${url.url}`)
+
       await prisma.urlForProcessing.delete({
         where: {
           id: url.id

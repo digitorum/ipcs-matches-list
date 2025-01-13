@@ -1,15 +1,14 @@
-import { freeResources } from '../common/free-resources'
-import { Logger } from '../common/logger'
+import { DbLogger } from './logger'
 import { PrismaClient } from '@prisma/client'
+import { Process } from '../common/process'
 
 export const prisma = new PrismaClient()
 
-const logger = new Logger()
+const logger = new DbLogger()
 
 async function disconnect(event: string) {
   await logger.log('PrismaClient', `disconnected by event "${event}"`)
-  prisma.$disconnect()
-  logger.free()
+  await prisma.$disconnect()
 }
 
-await freeResources(disconnect)
+Process.executeOnExit(disconnect)

@@ -29,7 +29,8 @@ type TAtlimaMatchResponse = {
       }
       name_ru?: string;
     }[]
-  }
+  };
+  location: string;
 }
 
 export class AtlimaMatch extends AbstractMatchResponse {
@@ -80,7 +81,7 @@ export class AtlimaMatch extends AbstractMatchResponse {
   }
 
   override get location(): string {
-    return [this.json.region?.country?.title, this.city, this.json.region?.title]
+    return [this.json.region?.country?.title, this.city, this.json.region?.title, this.json.location]
       .filter((chunk) => !!chunk)
       .join(', ')
   }

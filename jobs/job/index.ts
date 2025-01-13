@@ -1,6 +1,33 @@
 import type { AbstractTaskConstructor } from '../tasks/abstract-task';
 
+import path from 'node:path'
+
+import { JobLogger } from '../logger'
+
 export class Job {
+
+  static async loadSchemaFile(filename: string) {
+    const { tasks, failureTask, schedule = null } = (await import(path.resolve(__dirname, '../', `${filename}.ts`)))
+
+    return {
+      tasks,
+      failureTask,
+      schedule
+    }
+  }
+
+  static create(tasks: AbstractTaskConstructor[], failureTask: AbstractTaskConstructor | null = null) {
+    const job = new Job(
+      new JobLogger()
+    )
+    .try(tasks)
+
+    if (failureTask) {
+      job.catch(failureTask)
+    }
+
+    return job
+  }
 
   constructor (
     private logger: ILogger
@@ -8,18 +35,8 @@ export class Job {
 
   }
 
-  private cronParrent: string = ''
   private tasks: AbstractTaskConstructor[] = []
   private failure: AbstractTaskConstructor | null = null
-
-  public get cron(): string {
-    return this.cronParrent
-  }
-
-  public schedule(cronParrent: string) {
-    this.cronParrent = cronParrent
-    return this
-  }
 
   public try(tasks: AbstractTaskConstructor[]) {
     this.tasks = tasks
@@ -38,8 +55,6 @@ export class Job {
   }
 
   public async perform() {
-    this.logger.log('Job', 'Запуск задачи')
-
     let context: Task.TContext = {
       exit: this.exit
     }

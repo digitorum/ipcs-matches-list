@@ -67,6 +67,8 @@ export class StoreUrlForProcessing extends AbstractTask {
             tries: 0
           }
         })
+
+        await this.logger.log('StoreUrlForProcessing', `Событие добавлено в очередь: ${url}`)
       }
     }
 

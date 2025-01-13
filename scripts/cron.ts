@@ -1,10 +1,12 @@
-import { job as atlimaParse } from '../jobs/atlima-parse-list-page'
-import { freeResources } from '../common/free-resources'
-import { job as linksParse } from '../jobs/perform-links-pending'
-import { job as makereadyParse } from '../jobs/makeready-parse-list-page'
-import { job as matchdayParse } from '../jobs/matchday-parse-list-page'
+import * as atlimaParse from '../jobs/atlima-parse-list-page'
+import * as linksParse from '../jobs/perform-links-pending'
+import * as makereadyParse from '../jobs/makeready-parse-list-page'
+import * as matchdayParse from '../jobs/matchday-parse-list-page'
 
+import { Job } from '../jobs/job'
 import { CronJob } from 'cron'
+import { Process } from '../common/process'
+import { Logger } from '../common/logger'
 
 const jobs: CronJob[] = [];
 
@@ -15,14 +17,16 @@ const jobs: CronJob[] = [];
   linksParse
 ].forEach((job) => {
 
-  if (!job.cron) {
+  if (!job.schedule) {
     return
   }
 
+  const instance = Job.create(job.tasks, 'failureTask' in job ? job.failureTask : null)
+
   jobs.push(new CronJob(
-    job.cron,
+    job.schedule,
     async function() {
-      await job.perform()
+      await instance.perform()
     }
   ))
 
@@ -34,7 +38,7 @@ jobs.forEach((job) => {
   job.start()
 })
 
-freeResources(() => {
+Process.executeOnExit(() => {
   jobs.forEach((job) => {
     job.stop()
   })

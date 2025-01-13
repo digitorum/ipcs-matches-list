@@ -2,28 +2,30 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 import { DateContainer } from './date-container';
-import { freeResources } from './free-resources';
+import { Process } from './process';
 
 export class Logger implements ILogger {
 
   private stream: fs.WriteStream | null = null
 
+  protected prefix: string = 'log'
+
   constructor() {
-    freeResources(() => {
+    Process.executeOnExit(() => {
       this.free()
     })
   }
 
   private open(): fs.WriteStream {
     this.stream = fs.createWriteStream(
-      path.resolve(process.cwd(), 'logs', `log-${new DateContainer().dateString}.txt`),
+      path.resolve(process.cwd(), 'logs', `${this.prefix}-${new DateContainer().dateString}.txt`),
       { flags: 'a' }
     )
 
     return this.stream
   }
 
-  public log (entity: string, message: string): Promise<void> {
+  public log(entity: string, message: string): Promise<void> {
     const stream = this.open()
     const text = `${new DateContainer().dateTimeString} - ${entity} - ${message}\n`
 
@@ -35,7 +37,6 @@ export class Logger implements ILogger {
   }
 
   public free() {
-
     if (this.stream) {
       this.stream.end()
     }

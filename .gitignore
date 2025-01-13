@@ -2,5 +2,7 @@
 .nuxt/
 .output/
 db/data/database.sqlite
+logs/db-*
+logs/job-*
 logs/log-*
 node_modules/
