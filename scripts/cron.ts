@@ -3,10 +3,9 @@ import * as linksParse from '../jobs/perform-links-pending'
 import * as makereadyParse from '../jobs/makeready-parse-list-page'
 import * as matchdayParse from '../jobs/matchday-parse-list-page'
 
-import { Job } from '../jobs/job'
 import { CronJob } from 'cron'
+import { Job } from '../jobs/job'
 import { Process } from '../common/process'
-import { Logger } from '../common/logger'
 
 const jobs: CronJob[] = [];
 
