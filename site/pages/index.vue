@@ -5,6 +5,9 @@
     :ui="{
       td: {
         base: ''
+      },
+      tr: {
+        base: 'hover:bg-gray-100'
       }
     }">
   
@@ -45,7 +48,7 @@
             <UBadge
               :ui="{ rounded: 'rounded-full' }"
               class="mr-2"
-              color="green"
+              color="rose"
               icon="i-tabler-file"
               size="xs"
               variant="soft">
@@ -58,13 +61,21 @@
             <UBadge
               :ui="{ rounded: 'rounded-full' }"
               class="mr-2"
-              color="indigo"
+              color="orange"
               icon="i-tabler-sum"
               size="xs"
               variant="soft">
               {{ row.minimumShots }}
             </UBadge>
           </UTooltip>
+          <UBadge
+            :ui="{ rounded: 'rounded-full' }"
+            class="mr-2"
+            color="sky"
+            size="xs"
+            variant="soft">
+            {{ row.platform }}
+          </UBadge>
         </div>
       </div>
     </template>
@@ -99,7 +110,7 @@ const columns =  [
     label: 'Дата',
     key: 'date',
     sortable: true,
-    class: 'min-w-24 lg:min-w-48'
+    class: 'w-24 lg:w-48'
   },
   {
     label: 'Мероприятие',
@@ -132,7 +143,8 @@ const matches = computed(() => {
       minimumShots: match.minimumShots,
       price: match.price,
       city: match.location.city?.name ?? '...',
-      location: match.location.description
+      location: match.location.description,
+      platform: match.platform .name
     }
   }) ?? []
 })

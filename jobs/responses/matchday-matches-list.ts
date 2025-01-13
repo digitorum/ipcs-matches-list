@@ -5,5 +5,7 @@ export class MatchdayMatchesList extends AbstractHtmlMatchesListResponse {
     '.competitions-list > .competitions-item[href]'
   ]
 
-  protected override ignore: string[] = []
+  protected override ignore: string[] = [
+    'https://md.ipsc.ru/competitions/595545/' // Тестовое
+  ]
 }
