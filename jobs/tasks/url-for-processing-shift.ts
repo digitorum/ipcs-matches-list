@@ -16,7 +16,6 @@ export class UrlForProcessingShift extends AbstractTask {
     })
 
     if (!url) {
-      await this.logger.log('UrlForProcessingShift', 'Очередь пуста')
       return context.exit()
     }
 
