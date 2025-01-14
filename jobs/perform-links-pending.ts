@@ -11,4 +11,4 @@ export const tasks = [
 
 export const failureTask = UrlForProcessingMarkUndone
 
-export const schedule = '*/5 * * * *'
+export const schedule = '*/1 * * * *'

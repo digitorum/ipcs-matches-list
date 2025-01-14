@@ -86,8 +86,12 @@ export class AtlimaMatch extends AbstractMatchResponse {
       .join(', ')
   }
 
-  override get exercisesCount(): number {
-    return this.json.exercises_amount ?? 0
+  override get exercisesCount(): string {
+    if (!this.json.exercises_amount) {
+      return ''
+    }
+
+    return this.json.exercises_amount.toString()
   }
 
   override get minimumShots(): number {
@@ -99,7 +103,11 @@ export class AtlimaMatch extends AbstractMatchResponse {
   }
 
   override get city(): string | null {
-    return this.json.city?.title ?? ''
+    return this.json.city?.title ?? null
+  }
+
+  override get country(): string | null {
+    return this.json.region?.country?.title ?? null
   }
 
 }

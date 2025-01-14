@@ -1,4 +1,4 @@
-import { AbstractHtmlMatchResponse } from './abstract-html-match-response';
+import { AbstractHtmlMatchResponse } from './abstract-html-match-response'
 
 const levelMap: Record<string, number> = {
   'I': 1,
@@ -126,8 +126,14 @@ export class MakereadyMatch extends AbstractHtmlMatchResponse {
     return this.content[2] ?? ''
   }
 
-  override get exercisesCount(): number {
-    return this.findNumber(this.content, /количество\s*упражнений:\s*([0-9]+)/i)
+  override get exercisesCount(): string {
+    const exercisesCount = this.findString(this.content, /количество\s*упражнений:\s*([0-9+]+)/i)
+
+    if (exercisesCount === '0') {
+      return ''
+    }
+
+    return exercisesCount
   }
 
   override get minimumShots(): number {
@@ -139,6 +145,10 @@ export class MakereadyMatch extends AbstractHtmlMatchResponse {
   }
 
   override get city(): string | null {
+    return null
+  }
+
+  override get country(): string | null {
     return null
   }
 }

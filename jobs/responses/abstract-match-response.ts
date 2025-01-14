@@ -7,10 +7,11 @@ export abstract class AbstractMatchResponse {
   abstract get federation(): string
   abstract get disciplines(): string[]
   abstract get location(): string
-  abstract get exercisesCount(): number
+  abstract get exercisesCount(): string
   abstract get minimumShots(): number
   abstract get price(): string
   abstract get city(): string | null
+  abstract get country(): string | null
 
   protected getDateTimeFromSrcDate(str: string) {
     if (!str) {

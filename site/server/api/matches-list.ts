@@ -22,7 +22,12 @@ export default defineEventHandler(async () => {
           description: true,
           city: {
             select: {
-              name: true
+              name: true,
+              country: {
+                select: {
+                  name: true
+                }
+              }
             }
           }
         }
@@ -36,6 +41,13 @@ export default defineEventHandler(async () => {
     where: {
       startDate: {
         gte: new Date()
+      },
+      location: {
+        city: {
+          country: {
+            name: 'Россия' // TODO: fix via filter
+          }
+        }
       }
     },
     orderBy: {

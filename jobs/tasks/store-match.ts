@@ -1,5 +1,6 @@
 import { AbstractMatchResponse } from '../responses/abstract-match-response'
 import { AbstractTask } from './abstract-task'
+import { DumbLocationResolver } from '../../common/dumb-location-resolver'
 import { UrlForProcessingStatus } from '../../enums/url-for-processing-status'
 
 import { prisma } from '../../db'
@@ -53,7 +54,13 @@ export class StoreMatch extends AbstractTask {
         continue
       }
 
+      const reslover = new DumbLocationResolver(match.location)
+      const countryName = match.country ?? reslover.country
+      const cityName = match.city ?? reslover.city
+
       let federationId = null
+      let countryId = null
+      let cityId = null
 
       if (match.federation) {
         const federation = await prisma.federation.upsert({
@@ -69,16 +76,30 @@ export class StoreMatch extends AbstractTask {
         federationId = federation?.id ?? null
       }
 
-      let cityId = null
-
-      if (match.city) {
-        const city = await prisma.city.upsert({
+      if (countryName) {
+        const country = await prisma.country.upsert({
           where: {
-            name: match.city
+            name: countryName
           },
           update: {},
           create: {
-            name: match.city
+            name: countryName
+          }
+        })
+
+        countryId = country.id
+      }
+
+      if (cityName) {
+        const city = await prisma.city.upsert({
+          where: {
+            name: cityName,
+            countryId
+          },
+          update: {},
+          create: {
+            name: cityName,
+            countryId
           }
         })
 

@@ -8,6 +8,6 @@ export const tasks = [
   StoreUrlForProcessing
 ]
 
-export const schedule = '0 * * * *'
+export const schedule = '*/30 * * * *'
 
 

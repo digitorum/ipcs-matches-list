@@ -48,8 +48,14 @@ export class MatchdayMatch extends AbstractHtmlMatchResponse {
     return this.findString(this.matchInfo, /Место проведения:\s*(.*)/i)
   }
 
-  override get exercisesCount(): number {
-    return this.findNumber(this.matchInfo, /Упражнений:\s*([0-9]+)/i)
+  override get exercisesCount(): string {
+    const exercisesCount = this.findString(this.matchInfo, /Упражнений:\s*([0-9+]+)/i)
+
+    if (exercisesCount === '0') {
+      return ''
+    }
+
+    return exercisesCount
   }
 
   override get minimumShots(): number {
@@ -61,6 +67,10 @@ export class MatchdayMatch extends AbstractHtmlMatchResponse {
   }
 
   override get city(): string | null {
+    return null
+  }
+
+  override get country(): string | null {
     return null
   }
 }

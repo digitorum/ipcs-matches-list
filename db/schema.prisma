@@ -29,10 +29,20 @@ model Federation {
 model City {
   id        Int        @id @default(autoincrement())
   name      String     @unique
-  country   String?    @default(dbgenerated("NULL"))
+  country   Country?   @relation(fields: [countryId], references: [id])
+  countryId Int?       @default(dbgenerated("NULL"))
   locations Location[]
 
+  @@unique([id, countryId])
   @@map("cities")
+}
+
+model Country {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+  City City[]
+
+  @@map("countries")
 }
 
 model Location {
@@ -64,7 +74,7 @@ model Match {
   startDate      DateTime
   endDate        DateTime?            @default(dbgenerated("NULL"))
   level          Int
-  exercisesCount Int
+  exercisesCount String
   minimumShots   Int
   price          String
   location       Location             @relation(fields: [locationId], references: [id])
